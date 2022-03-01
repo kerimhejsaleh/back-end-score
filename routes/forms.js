@@ -57,8 +57,8 @@ router.post('/addforms', verifyToken, async (req, res) => {
         forms.created_date = new Date();
         forms.update_date= new Date(),
         forms.status = true;
-        console.log("forssssssssssms",req.body.formMuti)
-        forms.formMuti=req.body.formMuti;
+        console.log("forssssssssssms",req.body.calculeFormule)
+        forms.formMuti=req.body.calculeFormule;
         console.log("forssssssssssms",3)
         forms.archived = false;
         console.log("forssssssssssms",4)
