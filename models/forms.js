@@ -13,7 +13,8 @@ const FormsSchema = new mongoose.Schema({
     status: { type: Boolean, required: true },
     genre: { type: String, required: true },
     password: { type: String },
-    nameAff: { type: String, required: true  },
+    nameAff: { type: Array, required: true  },
+    nameAff2: { type: Array, required: true  },
     etat: { type: Boolean, required: true },
 })
 let Forms = mongoose.model('forms', FormsSchema);

@@ -10,17 +10,20 @@ const { Dossier } = require('../models/dossier');
 const router = express.Router();
 
 router.post('/addinside', verifyAdminToken, async (req, res) => {
+  /*   console.log("req.body",req.body) */
     try {
         obj = req.body;
         let form = await Forms.findOne({ _id: obj.form, archived: false });
-        console.log("form",form)
+     /*    console.log("form",form.nameAff)
+        console.log(" obj.nameDossier", obj.nameDossier) */
         let updatedForm = await Forms.findByIdAndUpdate({ _id: obj.form, archived: false }, {
             $set: {
                 nameAff : obj.nameDossier,
+                nameAff2: obj.nameDossier,
                 etat :true
             }
         })
-        console.log("updatedForm",updatedForm.nameAff)
+     /*    console.log("updatedForm",updatedForm.nameAff) */
         let dossier = await Dossier.findOne({ _id: obj.dossier, archived: false });
         if (!form || !dossier) {
             return res.status(404).send({ message: "Not found" })
@@ -29,7 +32,7 @@ router.post('/addinside', verifyAdminToken, async (req, res) => {
         inside.date = new Date();
 
         let aff = await Inside.findOne({ dossier: obj.dossier, form: obj.form })
-        console.log("aff",aff)
+     /*    console.log("aff",aff) */
         if (!aff) {
             await inside.save()
             res.status(200).send({ affected: 1 })
@@ -102,31 +105,32 @@ router.get('/getmyform/:id', verifyAdminToken, async (req, res) => {
 
 });
 router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res) => {
-    console.log("yyy",req.params)
+   /*  console.log("yyy",req.params) */
     try {
         let form = await Forms.findOne({ _id: req.params.form, archived: false });
-      console.log("yyy")
+   /*    console.log("yyy") */
         let dossier = await Dossier.findOne({ _id: req.params.dossier, archived: false });
         if (!form || !dossier) {
-            console.log("yyrrrrry")
+        /*     console.log("yyrrrrry") */
             return res.status(404).send({ message: "Not found" })
         }
-        console.log("ydyy",req.params.dossier,req.params.form)
+    /*     console.log("ydyy",req.params.dossier,req.params.form) */
         let deletedinside = await Inside.findOneAndDelete({ dossier: req.params.dossier, form: req.params.form})
-        console.log("yyreeey")
+    /*     console.log("yyreeey",deletedinside) */
         let updatedForm = await Forms.findByIdAndUpdate({ _id: req.params.form, archived: false }, {
             $set: {
-                nameAff : "Aucune dossier",
+                nameAff : {Aff1:"Aucune dossier"},
+                nameAff2 :{Aff1:"Aucune dossier"},
                 etat :false
             }
         })
-        console.log("yyreeey",updatedForm)
+       /*  console.log("yyreeey",updatedForm) */
         if (!deletedinside) {
-            console.log("yyyggggg")
+            /* console.log("yyyggggg") */
             res.status(404).send('not found')
         } else {
             
-            console.log("yzzzzyy")
+           /*  console.log("yzzzzyy") */
             res.status(200).send(deletedinside);
         }
 

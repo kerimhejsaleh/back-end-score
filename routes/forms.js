@@ -63,7 +63,9 @@ router.post('/addforms', verifyToken, async (req, res) => {
         forms.archived = false;
         console.log("forssssssssssms",4)
         forms.password = '';
-        forms.nameAff="Aucune dossier";
+      
+        forms.nameAff = {Aff1:"Aucune dossier"},
+        forms.nameAff2 ={Aff1:"Aucune dossier"},
         forms.etat=false;
         console.log("forssssssssssms",5)
         let savedForms = await forms.save()
@@ -78,7 +80,7 @@ router.post('/addforms', verifyToken, async (req, res) => {
 });
 
 router.get('/getforms', verifyToken, async (req, res) => {
-console.log("uuuuu",res)
+/* console.log("uuuuu",res) */
     try {
 
         let forms = await Forms.find({ archived: false }).sort({ 'title': 1 })
@@ -134,11 +136,12 @@ router.get('/getformsfromarchive', verifyToken, async (req, res) => {
 
 router.put('/updateforms/:id', verifyToken, async (req, res) => {
    console.log('eee',new Date())
+
     try {
 
         let id = req.params.id;
         let data = req.body;
-
+ console.log('eee',data.genre)
         const salt = bcrypt.genSaltSync(10);
         // now we set user password to hashed password
         password = bcrypt.hashSync(data.password, salt);
@@ -156,6 +159,7 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
                         etat:data.etat,
                         nameAff:data.nameAff,
                         sections: data.sections,
+                        genre:data.genre,
                         formMuti: data.formMuti,
                         messages: data.messages,
                         formule: data.formule
@@ -181,6 +185,7 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
                     created_date: data.created_date,
                     update_date: new Date(),
                     etat:data.etat,
+                    genre:data.genre,
                     nameAff:data.nameAff,
                     sections: data.sections,
                     formMuti:data.formMuti,
