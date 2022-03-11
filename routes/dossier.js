@@ -133,8 +133,8 @@ router.get('/archived/:id', verifyAdminToken, async (req, res) => {
    for(let i=0;i<updatedDossier.length;i++){
     await Forms.findByIdAndUpdate({ _id: updatedDossier[i].form, archived: false }, {
       $set: {
-        nameAff : {Aff1:"Aucune dossier"},
-        nameAff2 :{Aff1:"Aucune dossier"},
+        nameAff : {Aff1:"Aucune dossier",checked:false},
+        nameAff2 :{Aff1:"Aucune dossier",checked:false},
           etat :false
       }
   }) 

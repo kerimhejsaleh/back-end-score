@@ -53,21 +53,21 @@ router.post('/addforms', verifyToken, async (req, res) => {
         ///console.log("obj",req.body)
         let forms = new Forms(obj);
         //console.log("forms",forms)
-        console.log("forssssssssssms",1)
+ /*        console.log("forssssssssssms",1) */
         forms.created_date = new Date();
         forms.update_date= new Date(),
         forms.status = true;
-        console.log("forssssssssssms",req.body.calculeFormule)
+     /*    console.log("forssssssssssms",req.body.calculeFormule) */
         forms.formMuti=req.body.calculeFormule;
-        console.log("forssssssssssms",3)
+     /*    console.log("forssssssssssms",3) */
         forms.archived = false;
-        console.log("forssssssssssms",4)
+    /*     console.log("forssssssssssms",4) */
         forms.password = '';
       
-        forms.nameAff = {Aff1:"Aucune dossier"},
-        forms.nameAff2 ={Aff1:"Aucune dossier"},
+        forms.nameAff = {Aff1:"Aucune dossier",checked:false},
+        forms.nameAff2 ={Aff1:"Aucune dossier",checked:false},
         forms.etat=false;
-        console.log("forssssssssssms",5)
+    /*     console.log("forssssssssssms",5) */
         let savedForms = await forms.save()
 
         res.status(200).send(savedForms);

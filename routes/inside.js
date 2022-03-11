@@ -23,7 +23,7 @@ router.post('/addinside', verifyAdminToken, async (req, res) => {
                 etat :true
             }
         })
-     /*    console.log("updatedForm",updatedForm.nameAff) */
+   /*   console.log("updatedForm",updatedForm.nameAff)  */
         let dossier = await Dossier.findOne({ _id: obj.dossier, archived: false });
         if (!form || !dossier) {
             return res.status(404).send({ message: "Not found" })
@@ -119,8 +119,8 @@ router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res)
     /*     console.log("yyreeey",deletedinside) */
         let updatedForm = await Forms.findByIdAndUpdate({ _id: req.params.form, archived: false }, {
             $set: {
-                nameAff : {Aff1:"Aucune dossier"},
-                nameAff2 :{Aff1:"Aucune dossier"},
+                nameAff : {Aff1:"Aucune dossier",checked:false},
+                nameAff2 :{Aff1:"Aucune dossier",checked:false},
                 etat :false
             }
         })
