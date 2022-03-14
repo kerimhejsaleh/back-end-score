@@ -64,8 +64,8 @@ router.post('/addforms', verifyToken, async (req, res) => {
     /*     console.log("forssssssssssms",4) */
         forms.password = '';
       
-        forms.nameAff = {Aff1:"Aucune dossier",checked:false},
-        forms.nameAff2 ={Aff1:"Aucune dossier",checked:false},
+        forms.nameAff = [{Aff1:"Aucune dossier",checked:false}],
+        forms.nameAff2 =[{Aff1:"Aucune dossier",checked:false}],
         forms.etat=false;
     /*     console.log("forssssssssssms",5) */
         let savedForms = await forms.save()
