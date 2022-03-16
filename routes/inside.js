@@ -14,8 +14,8 @@ router.post('/addinside', verifyAdminToken, async (req, res) => {
     try {
         obj = req.body;
         let form = await Forms.findOne({ _id: obj.form, archived: false });
-     /*    console.log("form",form.nameAff)
-        console.log(" obj.nameDossier", obj.nameDossier) */
+      //  console.log("form",form.nameAff)
+      //  console.log(" obj.nameDossier", obj.nameDossier)
         let updatedForm = await Forms.findByIdAndUpdate({ _id: obj.form, archived: false }, {
             $set: {
                 nameAff : obj.nameDossier,
@@ -23,7 +23,7 @@ router.post('/addinside', verifyAdminToken, async (req, res) => {
                 etat :true
             }
         })
-   /*   console.log("updatedForm",updatedForm.nameAff)  */
+  //  console.log("updatedForm",updatedForm.nameAff)  
         let dossier = await Dossier.findOne({ _id: obj.dossier, archived: false });
         if (!form || !dossier) {
             return res.status(404).send({ message: "Not found" })
@@ -105,32 +105,54 @@ router.get('/getmyform/:id', verifyAdminToken, async (req, res) => {
 
 });
 router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res) => {
-   /*  console.log("yyy",req.params) */
+
     try {
         let form = await Forms.findOne({ _id: req.params.form, archived: false });
-   /*    console.log("yyy") */
+ 
         let dossier = await Dossier.findOne({ _id: req.params.dossier, archived: false });
         if (!form || !dossier) {
-    /*         console.log("yyrrrrry")  */
+  
             return res.status(404).send({ message: "Not found" })
         }
-    /*     console.log("ydyy",req.params.dossier,req.params.form)  */
+     //  console.log("form",forms)  
+    //   console.log("dossier",dossier)  
         let deletedinside = await Inside.findOneAndDelete({ dossier: req.params.dossier, form: req.params.form})
-/*        console.log("yyreeey",deletedinside)  */
+     /*    console.log("form.nameAff.length",form.nameAff.length,form.nameAff2.length)   */
+        if(form.nameAff.length==1&&form.nameAff.length==1){
+    /*         console.log("form.nameAff.lengtzzzzzh",form.nameAff.length,form.nameAff2.length)   */
         let updatedForm = await Forms.findByIdAndUpdate({ _id: req.params.form, archived: false }, {
             $set: {
                 nameAff : [{Aff1:"Aucune dossier",checked:false}],
                 nameAff2 :[{Aff1:"Aucune dossier",checked:false}],
                 etat :false
             }
-        })
-       console.log("yyreeey",updatedForm)
+        })}else{
+            let i=0;
+            form.nameAff.map((resMap)=>{
+            // console.log("res",res.name,resMap.Aff1)
+              i++;
+               if(resMap.Aff1==dossier.name){
+               //  console.log(i,resForm.nameAff)
+               form.nameAff.splice(i-1,i)
+               form.nameAff2.splice(i-1,i)
+            /*    console.log("dddddddd",i,form.nameAff) */
+               }
+            })
+            let updatedForm = await Forms.findByIdAndUpdate({ _id: req.params.form, archived: false }, {
+                $set: {
+                    nameAff : form.nameAff,
+                    nameAff2 :form.nameAff2,
+                    etat :false
+                }
+            })
+        }
+      /*  console.log("yyreeey",updatedForm) */
         if (!deletedinside) {
-            console.log("yyyggggg") 
+         /*    console.log("yyyggggg")  */
             res.status(404).send('not found')
         } else {
             
-          console.log("yzzzzyy") 
+     /*      console.log("yzzzzyy")  */
             res.status(200).send(deletedinside);
         }
 
@@ -140,5 +162,6 @@ router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res)
     }
 
 });
+ 
 
 module.exports = router;

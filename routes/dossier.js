@@ -9,6 +9,7 @@ const { verifyAdminToken } = require('../middlewares/verifyToken');
 const { isValidObjectId } = require('mongoose');
 const { Inside } = require('../models/inside');
 const { Forms } = require('../models/forms');
+const { Do } = require('../models/forms');
 
 let filename1 = [];
 ///secret key
@@ -85,7 +86,8 @@ router.get('/:id', verifyAdminToken, async (req, res) => {
 
 router.get('/', verifyAdminToken, async (req, res) => {
   try {
-    let dossiers = await Dossier.find({ archived: false })
+    let dossiers = await Dossier.find({ archived: false }).sort({ 'name': 1 })
+  
     res.status(200).send(dossiers);
   } catch (error) {
     res.status(400).send({ message: "Erreur", error });
@@ -128,16 +130,34 @@ router.delete('/:id', verifyAdminToken, async (req, res) => {
   }
 });
 router.get('/archived/:id', verifyAdminToken, async (req, res) => {
-  console.log('hellllllppppppp de doss',req.params.id)
+/*   console.log('hellllllppppppp de doss',req.params.id) */
   let updatedDossier = await Inside.find({ dossier: req.params.id  })
+  let dossier = await Dossier.findOne({ _id: req.params.id, archived: false });
+//  console.log('updatedDossier de doss',dossier.name) 
    for(let i=0;i<updatedDossier.length;i++){
+
+    let formilaire =   await Forms.findByIdAndUpdate({ _id: updatedDossier[i].form, archived: false }) 
+ /*  console.log('formilaire',formilaire) */
+    var filtered = formilaire.nameAff2.filter(function(value, index, arr){ 
+   /* console.log('value.Aff1',value.Aff1) */
+      return value.Aff1!=dossier.name ;
+  });
+ /*  console.log('filteredfilteredfiltered',filtered) */
+  if(formilaire.nameAff2.length==0||filtered.length==0){
     await Forms.findByIdAndUpdate({ _id: updatedDossier[i].form, archived: false }, {
       $set: {
         nameAff : [{Aff1:"Aucune dossier",checked:false}],
         nameAff2 :[{Aff1:"Aucune dossier",checked:false}],
           etat :false
       }
-  }) 
+  })} else{
+  await Forms.findByIdAndUpdate({ _id: updatedDossier[i].form, archived: false }, {
+    $set: {
+      nameAff : filtered,
+      nameAff2 :filtered,
+        etat :false
+    }
+})}
    }
   try {
     let id = req.params.id;
