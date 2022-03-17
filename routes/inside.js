@@ -104,8 +104,8 @@ router.get('/getmyform/:id', verifyAdminToken, async (req, res) => {
     }
 
 });
-router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res) => {
-
+router.delete('/deleteinside/:dossier/:form/:type', verifyAdminToken, async (req, res) => {
+/* console.log("req.params.",req.params.type) */
     try {
         let form = await Forms.findOne({ _id: req.params.form, archived: false });
  
@@ -118,7 +118,8 @@ router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res)
     //   console.log("dossier",dossier)  
         let deletedinside = await Inside.findOneAndDelete({ dossier: req.params.dossier, form: req.params.form})
      /*    console.log("form.nameAff.length",form.nameAff.length,form.nameAff2.length)   */
-        if(form.nameAff.length==1&&form.nameAff.length==1){
+        if(form.nameAff.length==1&&form.nameAff2.length==1 ||req.params.type=="aucun" ||req.params.type=="aucun"&& form.nameAff.length>1&&form.nameAff2.length>1){
+          /*   console.log(1) */
     /*         console.log("form.nameAff.lengtzzzzzh",form.nameAff.length,form.nameAff2.length)   */
         let updatedForm = await Forms.findByIdAndUpdate({ _id: req.params.form, archived: false }, {
             $set: {
@@ -126,7 +127,10 @@ router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res)
                 nameAff2 :[{Aff1:"Aucune dossier",checked:false}],
                 etat :false
             }
-        })}else{
+
+        })
+      /*   console.log("updatedForm,updatedForm",updatedForm) */}else{
+        /*     console.log(2) */
             let i=0;
             form.nameAff.map((resMap)=>{
             // console.log("res",res.name,resMap.Aff1)
@@ -145,6 +149,7 @@ router.delete('/deleteinside/:dossier/:form', verifyAdminToken, async (req, res)
                     etat :false
                 }
             })
+         /*    console.log("updatedForm2",updatedForm) */
         }
       /*  console.log("yyreeey",updatedForm) */
         if (!deletedinside) {

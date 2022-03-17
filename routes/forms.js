@@ -135,13 +135,13 @@ router.get('/getformsfromarchive', verifyToken, async (req, res) => {
 });
 
 router.put('/updateforms/:id', verifyToken, async (req, res) => {
-   console.log('eee',new Date())
+  /*  console.log('eee',new Date()) */
 
     try {
 
         let id = req.params.id;
         let data = req.body;
- console.log('eee',data.genre)
+ /* console.log('eee',data.genre) */
         const salt = bcrypt.genSaltSync(10);
         // now we set user password to hashed password
         password = bcrypt.hashSync(data.password, salt);

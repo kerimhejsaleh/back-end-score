@@ -241,9 +241,9 @@ router.post('/reset-password/:id/:token', async (req, res, next) => {
 router.post('/tokenverification', async (req, res) => {
 
   let token = req.body.token;
-  console.log(token);
+/*   console.log(token); */
   if (!token) {
-    console.log("2222");
+ /*    console.log("2222"); */
     return res.status(401).send('Unauthorized request')
   }
   let userData = getUserData(token);
