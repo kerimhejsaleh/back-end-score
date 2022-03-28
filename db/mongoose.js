@@ -1,9 +1,9 @@
 
 const mongoose = require('mongoose');
 
- const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/scores" 
-/* const MONGODB_URI = process.env.MONGODB_URI || "mongodb://scoreUser:Score1%40score2@172.16.70.137:20000/scores?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
- */
+/*  const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/scores"   */
+ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://scoreUser:Score1%40score2@172.16.70.137:20000/scores?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+
 const MONGODB_OPTIONS = {
     useNewUrlParser: true,
     useCreateIndex: true,

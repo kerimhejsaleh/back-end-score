@@ -15,6 +15,7 @@ const FormsSchema = new mongoose.Schema({
     password: { type: String },
     nameAff: { type: Array, required: true  },
     nameAff2: { type: Array, required: true  },
+    dossierAff: { type: Array, required: true  },
     etat: { type: Boolean, required: true },
 })
 let Forms = mongoose.model('forms', FormsSchema);

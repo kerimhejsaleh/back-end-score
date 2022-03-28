@@ -35,12 +35,12 @@ router.post('/', async (req, res) => {
   try {
     let obj = req.body;
     let dossier = new Dossier(obj);
-
     try {
 
       dossier.archived = false;
       dossier.added_date = new Date();
-
+      dossier.status=req.body.status;
+      dossier.idDossier=req.body.idDossier
 
       let saveddossier = await dossier.save()
 
@@ -65,16 +65,19 @@ router.post('/', async (req, res) => {
 
 
 router.get('/:id', verifyAdminToken, async (req, res) => {
+/*   console.log(1) */
   try {
     let id = req.params.id;
+   /*  console.log(2) */
     if (!isValidObjectId(id)) {
       return res.status(404).send('not found')
     }
     let dossier = await Dossier.findOne({ _id: id, archived: false })
-
+  /*   console.log(3) */
     if (!dossier) {
       res.status(404).send('not found')
     } else {
+     /*  console.log(4) */
       res.status(200).send(dossier);
     }
   } catch (error) {
@@ -82,12 +85,36 @@ router.get('/:id', verifyAdminToken, async (req, res) => {
   }
 });
 
-
+router.get('/getDossier/:id', verifyAdminToken, async (req, res) => {
+  /*   console.log(1)  */
+    try {
+      let id = req.params.id;
+      /* console.log(2)  */
+      if (!isValidObjectId(id)) {
+        return res.status(404).send('not found')
+      }
+      let dossier = await Dossier.findOne({ idDossier: id, archived: false })
+     /*  console.log(3,dossier)  */
+      if (!dossier) {
+        res.status(404).send('not found')
+      } else {
+       /*   console.log(4)  */
+        res.status(200).send(dossier);
+      }
+      if(dossier==null)
+      {
+       /*  console.log(45)  */
+       res.status(200).send(null);
+     }
+    } catch (error) {
+      res.status(400).send({ message: "Erreur", error });
+    }
+  });
 
 router.get('/', verifyAdminToken, async (req, res) => {
   try {
     let dossiers = await Dossier.find({ archived: false }).sort({ 'name': 1 })
-  
+ /*  console.log(dossiers) */
     res.status(200).send(dossiers);
   } catch (error) {
     res.status(400).send({ message: "Erreur", error });
@@ -174,7 +201,32 @@ router.get('/archived/:id', verifyAdminToken, async (req, res) => {
     res.status(400).send({ message: "Erreur", error });
   }
 });
-
+router.get('/archivedSousDossier/:id', verifyAdminToken, async (req, res) => {
+  /*   console.log('hellllllppppppp de doss',req.params.id) */
+    let updatedDossier = await Inside.find({ dossier: req.params.id  })
+    let dossier = await Dossier.findOne({ _id: req.params.id, archived: false });
+  //  console.log('updatedDossier de doss',dossier.name) 
+  await Forms.findByIdAndUpdate({ _id: updatedDossier[i].form, archived: false }, {
+    $set: {
+      dossierAff:[{nameDossier:"Aucune dossier",id:""}],
+        etat :false
+    }
+})
+    try {
+      let id = req.params.id;
+  
+      let updatedForms = await Dossier.findByIdAndUpdate({ _id: id }, { $set: { archived: true ,dossierAff:[{nameDossier:"Aucune dossier",id:""}],} })
+  
+      if (!updatedForms) {
+        res.status(404).send('not found')
+      } else {
+        res.status(200).send(updatedForms);
+      }
+  
+    } catch (error) {
+      res.status(400).send({ message: "Erreur", error });
+    }
+  });
 router.get('/restorer/:id', verifyAdminToken, async (req, res) => {
   try {
     let id = req.params.id;

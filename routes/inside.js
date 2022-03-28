@@ -44,7 +44,41 @@ router.post('/addinside', verifyAdminToken, async (req, res) => {
         res.status(400).send({ message: "Erreur", error });
     }
 });
-
+router.post('/addinsideDossier', verifyAdminToken, async (req, res) => {
+    /*  console.log("req.body",req.body)  */
+      try {
+          obj = req.body;
+          let form = await Forms.findOne({ _id: obj.form, archived: false });
+       /*   console.log("form",form) */
+        //  console.log(" obj.nameDossier", obj.nameDossier)
+          let updatedForm = await Forms.findByIdAndUpdate({ _id: obj.form, archived: false }, {
+              $set: {
+                
+                  dossierAff: obj.nameDossier,
+                  etat :true
+              }
+          })
+  /*  console.log("updatedForm",updatedForm)   */
+          let dossier = await Dossier.findOne({ _id: obj.dossier, archived: false });
+          if (!form || !dossier) {
+              return res.status(404).send({ message: "Not found" })
+          }
+          let inside = new Inside(obj);
+          inside.date = new Date();
+  
+          let aff = await Inside.findOne({ dossier: obj.dossier, form: obj.form })
+          /* console.log("aff",aff)  */
+          if (!aff) {
+              await inside.save()
+              res.status(200).send({ affected: 1 })
+          } else {
+              res.status(200).send({ affected: 0 });
+          }
+      } catch (error) {
+          console.log(error);
+          res.status(400).send({ message: "Erreur", error });
+      }
+  });
 router.get('/getinside/:dossier', verifyAdminToken, async (req, res) => {
     try {
         let dossier = await Dossier.findOne({ _id: req.params.dossier, archived: false });
