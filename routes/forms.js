@@ -142,7 +142,7 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
 
         let id = req.params.id;
         let data = req.body;
- /* console.log('eee',data.genre) */
+ /*  console.log('eee',data)  */
         const salt = bcrypt.genSaltSync(10);
         // now we set user password to hashed password
         password = bcrypt.hashSync(data.password, salt);
@@ -163,7 +163,8 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
                         genre:data.genre,
                         formMuti: data.formMuti,
                         messages: data.messages,
-                        formule: data.formule
+                        formule: data.formule,
+                        dossierAff:data.dossierAff
                     }
                 })
                 if (!updatedForm) {
@@ -191,7 +192,8 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
                     sections: data.sections,
                     formMuti:data.formMuti,
                     messages: data.messages,
-                    formule: data.formule
+                    formule: data.formule,
+                    dossierAff:data.dossierAff
                 }
             })
             if (!updatedForm) {

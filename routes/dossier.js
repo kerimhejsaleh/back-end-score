@@ -202,19 +202,25 @@ router.get('/archived/:id', verifyAdminToken, async (req, res) => {
   }
 });
 router.get('/archivedSousDossier/:id', verifyAdminToken, async (req, res) => {
+  console.log(1,req.params.id)
   /*   console.log('hellllllppppppp de doss',req.params.id) */
     let updatedDossier = await Inside.find({ dossier: req.params.id  })
+    console.log(2,updatedDossier)
     let dossier = await Dossier.findOne({ _id: req.params.id, archived: false });
+    console.log(3,dossier)
   //  console.log('updatedDossier de doss',dossier.name) 
+/*   for(let i=0;i<updatedDossier.length;i++){
   await Forms.findByIdAndUpdate({ _id: updatedDossier[i].form, archived: false }, {
     $set: {
       dossierAff:[{nameDossier:"Aucune dossier",id:""}],
         etat :false
     }
 })
+  } */
+console.log(4)
     try {
       let id = req.params.id;
-  
+      console.log(5)
       let updatedForms = await Dossier.findByIdAndUpdate({ _id: id }, { $set: { archived: true ,dossierAff:[{nameDossier:"Aucune dossier",id:""}],} })
   
       if (!updatedForms) {
