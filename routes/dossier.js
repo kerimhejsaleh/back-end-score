@@ -175,6 +175,7 @@ router.get('/archived/:id', verifyAdminToken, async (req, res) => {
       $set: {
         nameAff : [{Aff1:"Aucune dossier",checked:false}],
         nameAff2 :[{Aff1:"Aucune dossier",checked:false}],
+      dossierAff:[{nameDossier:"Aucune dossier",id:""}],
           etat :false
       }
   })} else{

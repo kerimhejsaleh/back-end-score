@@ -159,6 +159,7 @@ router.delete('/deleteinside/:dossier/:form/:type', verifyAdminToken, async (req
             $set: {
                 nameAff : [{Aff1:"Aucune dossier",checked:false}],
                 nameAff2 :[{Aff1:"Aucune dossier",checked:false}],
+                dossierAff:[{nameDossier:"Aucune dossier",id:""}],
                 etat :false
             }
 
