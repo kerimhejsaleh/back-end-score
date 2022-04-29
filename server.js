@@ -46,7 +46,7 @@ app.use('/dossier', dossierApi);
 app.use('/response', responseApi);
 app.use('/demande', demandeApi);
 app.use('/inside', insideApi);
-
+app.use(express.static('../client/dist'));
 
 app.get('/getfile/:filename', function (req, res) {
 	let file = path.join(__dirname + '/upload/' + req.params.filename)
