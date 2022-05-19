@@ -173,9 +173,11 @@ router.post('/forgot-password', async (req, res, next) => {
         _id: admin._id
       }
       const token = jwt.sign(payload, secret, { expiresIn: "15min" });
-      const link = `http://102.219.178.96/resetpassword/${admin._id}/${token}`;
+ /*      console.log("eeeeeeeeeeeeeeeeeeeeeeee",`http://localhost:4200/resetpassword/${admin._id}/${token}`) */
+      const link = `http://localhost:4200/#/resetpassword/${admin._id}/${token}`;
+  /*     console.log("linnkk",link) */
       sendEmailLink(admin.email, link)
-      res.status(200).send({ etat: 'success' });
+      res.status(200).send({ etat: token });
     }
   } catch (error) {
     console.log(error);
@@ -241,17 +243,19 @@ router.post('/reset-password/:id/:token', async (req, res, next) => {
 router.post('/tokenverification', async (req, res) => {
 
   let token = req.body.token;
+/*   console.log("tpken",req.body) */
 /*   console.log(token); */
   if (!token) {
- /*    console.log("2222"); */
+  /*   console.log("2222");  */
     return res.status(401).send('Unauthorized request')
   }
   let userData = getUserData(token);
+/*   console.log("22223333",userData);  */
   if (userData) {
     let admin = await Admin.findOne({ _id: userData._id });
-
+/*     console.log("admin",admin); */
     if (!admin) {
-      console.log('3333333');
+ /*      console.log('3333333'); */
       return res.status(401).send('Unauthorized request')
     } else {
       return res.json({ status: 200 });

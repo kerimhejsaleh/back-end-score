@@ -134,7 +134,6 @@ router.get('/getformsfromarchive', verifyToken, async (req, res) => {
     }
 
 });
-
 router.put('/updateforms/:id', verifyToken, async (req, res) => {
   /*  console.log('eee',new Date()) */
 
@@ -259,7 +258,7 @@ router.get('/getformsbyid/:id', verifyToken, async (req, res) => {
         }
 
         let form = await Forms.findOne({ _id: id, archived: false })
-
+         /*   console.log("fodjdd",form) */
         if (!form) {
             res.status(404).send('not found')
         } else {

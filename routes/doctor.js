@@ -32,6 +32,7 @@ const storage = multer.diskStorage(
 const upload = multer({ storage: storage });
 
 router.post('/', upload.any('image'), async (req, res) => {
+/*   console.log(1) */
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
@@ -78,6 +79,7 @@ router.post('/', upload.any('image'), async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+/*   console.log(2) */
   try {
     let doctorData = req.body
 
@@ -106,6 +108,7 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/:id', verifyToken, async (req, res) => {
+/*   console.log(3) */
   try {
     let id = req.params.id;
     if (!isValidObjectId(id)) {
@@ -124,7 +127,7 @@ router.get('/:id', verifyToken, async (req, res) => {
 });
 
 router.put('/updatephoto/:id', upload.any('image'), async (req, res) => {
-
+/*   console.log(4) */
   try {
     let id = req.params.id;
 
@@ -145,6 +148,7 @@ router.put('/updatephoto/:id', upload.any('image'), async (req, res) => {
 });
 
 router.get('/', verifyToken, async (req, res) => {
+/*   console.log(5) */
   try {
     let doctors = await Doctor.find({ archived: false })
     res.status(200).send(doctors);
@@ -155,6 +159,7 @@ router.get('/', verifyToken, async (req, res) => {
 
 
 router.get('/getbygender/:genre', verifyToken, async (req, res) => {
+/*   console.log(6) */
   try {
 
     let genre = req.params.genre;
@@ -168,6 +173,7 @@ router.get('/getbygender/:genre', verifyToken, async (req, res) => {
 });
 
 router.put('/:id', verifyToken, async (req, res) => {
+  /* console.log(7) */
   try {
     let id = req.params.id;
     let data = req.body
@@ -181,7 +187,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     } else {
       let payload = { subject: updateddoctor }
       let token = jwt.sign(payload, 'secretKey')
-      res.status(200).send({ token });
+      res.status(200).send({ token,updateddoctor });
     }
 
   } catch (error) {
@@ -190,6 +196,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 router.delete('/:id', verifyToken, async (req, res) => {
+/*   console.log(8) */
   try {
     let id = req.params.id;
 
@@ -206,6 +213,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
 });
 
 router.get('/archived/:id', verifyToken, async (req, res) => {
+/*   console.log(9) */
   try {
     let id = req.params.id;
 
@@ -223,6 +231,7 @@ router.get('/archived/:id', verifyToken, async (req, res) => {
 });
 
 router.get('/restorer/:id', verifyToken, async (req, res) => {
+/*   console.log(10) */
   try {
     let id = req.params.id;
 
@@ -240,6 +249,7 @@ router.get('/restorer/:id', verifyToken, async (req, res) => {
 });
 
 router.get('/archive/getdoctorfromarchive', verifyToken, async (req, res) => {
+ /*  console.log(11) */
   try {
     let doctors = await Doctor.find({ archived: true })
     res.status(200).send(doctors);
@@ -249,6 +259,7 @@ router.get('/archive/getdoctorfromarchive', verifyToken, async (req, res) => {
 });
 
 router.put('/lockunlock/:id', verifyToken, async (req, res) => {
+  /* console.log(12) */
 
   try {
     let id = req.params.id;
@@ -267,6 +278,7 @@ router.put('/lockunlock/:id', verifyToken, async (req, res) => {
 });
 
 router.get('/reset-password/:id/:token', async (req, res, next) => {
+/*   console.log(13) */
   try {
     const { id, token } = req.params;
 

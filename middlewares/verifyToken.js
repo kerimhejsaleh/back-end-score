@@ -16,7 +16,10 @@ const jwtDecode = (token) => {
 const getUserData = (token) => {
     let decoded = jwtDecode(token);
     if (decoded) {
-        return decoded.subject;
+        if(decoded.subject){
+        return decoded.subject;}
+        else{
+        return decoded;}
     } else return null
 }
 module.exports = {
