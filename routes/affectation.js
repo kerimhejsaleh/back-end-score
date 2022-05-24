@@ -129,7 +129,7 @@ router.get('/getaffectationall', verifyToken, async (req, res) => {
         let affectations = await Affectation.find()
   /*     console.log(affectations.length) */
       const taile =affectations.length
-        res.status(200).send({taile:taile});
+        res.status(200).send({taile:taile,allForms:affectations});
     } catch (error) {
         res.status(400).send({ message: "Erreur", error });
     }
