@@ -174,7 +174,7 @@ router.post('/forgot-password', async (req, res, next) => {
       }
       const token = jwt.sign(payload, secret, { expiresIn: "15min" });
  /*      console.log("eeeeeeeeeeeeeeeeeeeeeeee",`http://localhost:4200/resetpassword/${admin._id}/${token}`) */
-      const link = `http://localhost:4200/#/resetpassword/${admin._id}/${token}`;
+      const link = `http://185.104.172.119:3000/#/resetpassword/${admin._id}/${token}`;
   /*     console.log("linnkk",link) */
       sendEmailLink(admin.email, link)
       res.status(200).send({ etat: token });
