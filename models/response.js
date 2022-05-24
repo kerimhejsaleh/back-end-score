@@ -30,7 +30,7 @@ const AffectSchema = new mongoose.Schema({
 
     created_date: { type: Date, required: true },
     responses: { type: mongoose.Schema.Types.Array, required: true },
-    score: { type: Number, required: true },
+    score: { type: Array, required: true },
     message: { type: String, required: true },
     state: { type: String, required: true, default: "Completed" },
     confirmationDate: { type: Date },

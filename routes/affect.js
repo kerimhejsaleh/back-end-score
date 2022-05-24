@@ -79,7 +79,6 @@ router.get('/getaffect/:user/:form', verifyToken, async (req, res) => {
 
 
 router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
-
     try {
         let user = req.params.user;
         let doctor = req.params.doctor;
@@ -170,6 +169,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
         res.status(200).send(forms)
 
     } catch (error) {
+        console.log(error);
         res.status(400).send({ message: "Erreur", error });
     }
 

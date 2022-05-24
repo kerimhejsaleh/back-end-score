@@ -45,10 +45,14 @@ router.post('/upload', upload.any('image'), (req, res) => {
 
 
 router.post('/addforms', verifyToken, async (req, res) => {
-    //console.log("req.body",req.body)
+    console.log("req.body",req.body)
+  
     try {
+       
+        let form = await Forms.find({ title: req.body.title });
 
-
+        if(form.length==0){
+    
         let obj = req.body;
         ///console.log("obj",req.body)
         let forms = new Forms(obj);
@@ -71,7 +75,11 @@ router.post('/addforms', verifyToken, async (req, res) => {
     /*     console.log("forssssssssssms",5) */
         let savedForms = await forms.save()
 
-        res.status(200).send(savedForms);
+        res.status(200).send(savedForms);}
+        else{
+     
+            res.status(200).send(false);
+        }
 
     } catch (error) {
  
