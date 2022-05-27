@@ -36,13 +36,14 @@ router.post('/addaffectation', verifyToken, async (req, res) => {
 });
 
 router.post('/addaffectationallforms', verifyToken, async (req, res,next) => {
- /*    console.log("req.body",req.body) */
+   console.log("req.body",req.body.length) 
     try {
         obj = req.body;
         var arr = [1,2,3,4,5];
 
 
       await  obj.map(async (result) =>{
+          console.log(result)
             let doctor = await Doctor.findOne({ _id: result.user, archived: false })
             let form = await Forms.findOne({ _id: result.form, archived: false }) 
           if (!doctor || !form) {

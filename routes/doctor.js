@@ -36,8 +36,17 @@ router.post('/', upload.any('image'), async (req, res) => {
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
-
-
+console.log(11,doctor)
+doctor.account_state_dossier_affectation=false
+doctor.liste_dossier= [{
+  id:"",
+  status:false,
+  lengthTab:0,
+  dataForms:[],
+  valLenght:false,
+  checkedone:false
+}]
+console.log(1321,doctor)
     let findEmailInDoctor = await Doctor.findOne({ email: doctor.email })
     let findEmailInPatient = await Patient.findOne({ email: doctor.email })
 

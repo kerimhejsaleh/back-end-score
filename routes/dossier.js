@@ -36,7 +36,9 @@ router.post('/', async (req, res) => {
     let obj = req.body;
     let dossier = new Dossier(obj);
     try {
-
+      let dos = await Dossier.find({ name: req.body.name }); 
+      console.log("dooss",dos)
+      if(dos.length==0){
       dossier.archived = false;
       dossier.added_date = new Date();
       dossier.status=req.body.status;
@@ -49,6 +51,11 @@ router.post('/', async (req, res) => {
       } else {
         return res.status(200).send(saveddossier);
       }
+    }
+    else{
+ 
+        res.status(200).send(false);
+    }
     } catch (error) {
       return res.status(400).send({ message: "Erreur", error });
     }
