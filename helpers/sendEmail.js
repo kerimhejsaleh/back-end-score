@@ -6,8 +6,8 @@ const sendEmailLink = async (email, link) => {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         service: 'gmail',
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
 
         auth: {
             user: 'scoreapp2021@gmail.com', // generated ethereal user

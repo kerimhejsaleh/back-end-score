@@ -40,13 +40,14 @@ router.post('/addresponse', async (req, res) => {
 
         responses.created_date = new Date();
         responses.archived = false;
-        let sc = [];
-        let form = await Forms.findOne({ _id: responses.form })
+        let sc = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+               let form = await Forms.findOne({ _id: responses.form })
         let formule = form.formule;
          formuleMuti = form.formMuti;
 
         //------------------------------------------------
     // console.log(formuleMuti);
+
         if (form.formMuti != []) {
             //f = ((q1 + q2 + q3) * 3) / q4
            // formuleMuti = formuleMuti.toUpperCase();
@@ -61,11 +62,6 @@ router.post('/addresponse', async (req, res) => {
 
                    if(item.indexScoreForm[i]["type"]=="index"){
                     if(item.indexScoreForm[i]['i'] == 0 ) { 
-                        if(responses.responses[item.indexScoreForm[i]["j"]].type == "Text court"){
-                            formuleCalcule = formuleCalcule + 0;
-                            console.log("formule 1",formuleCalcule);
-                            formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "0";
-                        }
                         if(responses.responses[item.indexScoreForm[i]["j"]].type == "Cases à cocher"){
                             for (let j = 0; j < responses.responses[item.indexScoreForm[i]["j"]]["options"].length; j++) {
                                 if(responses.responses[item.indexScoreForm[i]["j"]]["options"][j]["selected"]==true){
@@ -151,11 +147,6 @@ router.post('/addresponse', async (req, res) => {
                 }
                 } 
                    else if(item.indexScoreForm[i]['i'] <= 9 && item.indexScoreForm[i]['j'] <= 9 ) { 
-                        if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type == "Text court"){
-                            formuleCalcule = formuleCalcule + 0;
-                            formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "0";
-
-                        }
                         if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type == "Cases à cocher"){
                             for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"].length; j++) {
                                 if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"][j]["selected"]==true){
@@ -256,7 +247,8 @@ router.post('/addresponse', async (req, res) => {
                    }
                    else if(item.indexScoreForm[i]["type"]=="number"){
                     formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + `${item.indexScoreForm[i]["desc"]}`;
-                    }else if(item.indexScoreForm[i]["type"]=="autre"){
+                    }
+                    else if(item.indexScoreForm[i]["type"]=="autre"){
                         if(item.indexScoreForm[i]["desc"] == ")"){
                             formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + ")";
                         }else if(item.indexScoreForm[i]["desc"] == "("){
@@ -269,16 +261,18 @@ router.post('/addresponse', async (req, res) => {
             
         });
             //sc = eval(formuleCalcule);
-            console.log("score calculer globale formule", formuleCalculeGlobal);
-            formuleCalculeGlobal.forEach(function(item,index){
-                sc.push(eval(item));
+            console.log("score calculer globale formule", form.formMuti);
+            for(var i =0; i<=form.formMuti.length;i++){
+                console.log(formuleCalculeGlobal[i]);
+                sc.add(eval(formuleCalculeGlobal[i]));
                 console.log(`item ${index} of table formule`,eval(item));
-
-            });
+            };
 
             console.log("score calculer", sc);
            // console.log("score calculer globale resultat", eval(formuleCalculeGlobal));
         }
+
+ 
         /*
                 if (formule && formule.length > 0 && formule == '+') {
             for (let r of responses.responses) {
@@ -324,6 +318,7 @@ router.post('/addresponse', async (req, res) => {
 */
         responses.score = sc;
 //-----------------------------------
+/*
         if (form.messages && Array.isArray(form.messages)) {
             Array.from(form.messages).forEach(message => {
                 if (String(message.score).includes("-")) {
@@ -356,7 +351,9 @@ router.post('/addresponse', async (req, res) => {
                 responses.message = '*'
             }
         }
+*/
 
+        responses.message = 'message formulaire';
         responses.state = 'completed';
         let savedresponses = await responses.save()
         await Affect.findOneAndUpdate({ user: savedresponses.user, form: savedresponses.form },
