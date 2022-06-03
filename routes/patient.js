@@ -85,7 +85,7 @@ router.post('/login', async (req, res) => {
   try {
     let patientData = req.body
 
-    let patient = await Patient.findOne({ email: patientData.email })
+    let patient = await Patient.findOne({ email: patientData.email, archived: false })
 
     if (!patient) {
       res.status(401).send('Invalid Email')
