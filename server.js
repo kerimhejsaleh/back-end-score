@@ -31,8 +31,8 @@ const port = process.env.PORT || 3000
 
 //cors , json and files config
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '50mb', extended: true}));
+app.use(express.urlencoded({ limit: '50mb', extended: true}));
 //app.use(express.static('../client/dist'));
 //routes
 app.use('/affectation', affectationApi);
