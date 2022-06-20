@@ -60,7 +60,7 @@ router.post('/', upload.any('image'), async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
- /*  console.log('usee',await Admin.find()) */
+   console.log('usee') 
   try {
     let adminData = req.body
 

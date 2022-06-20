@@ -186,9 +186,9 @@ router.put('/:id', verifyToken, async (req, res) => {
   try {
     let id = req.params.id;
     let data = req.body
-
+console.log("data.password",data.password)
     data.password ? data.password = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10)) : delete data.password
-
+    console.log("data.password11",data.password)
     let updateddoctor = await Doctor.findByIdAndUpdate({ _id: id }, data, { new: true })
 
     if (!updateddoctor) {
