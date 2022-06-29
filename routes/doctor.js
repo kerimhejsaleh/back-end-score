@@ -32,7 +32,7 @@ const storage = multer.diskStorage(
 const upload = multer({ storage: storage });
 
 router.post('/', upload.any('image'), async (req, res) => {
-/*   console.log(1) */
+  console.log("req.body",req.body)
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
@@ -186,9 +186,9 @@ router.put('/:id', verifyToken, async (req, res) => {
   try {
     let id = req.params.id;
     let data = req.body
-
+console.log("data.password",data.password)
     data.password ? data.password = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10)) : delete data.password
-
+    console.log("data.password11",data.password)
     let updateddoctor = await Doctor.findByIdAndUpdate({ _id: id }, data, { new: true })
 
     if (!updateddoctor) {
