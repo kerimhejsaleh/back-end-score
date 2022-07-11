@@ -1,5 +1,7 @@
 const express = require('express');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2
+const streamifier = require('streamifier')
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 global.atob = require("atob");
@@ -26,9 +28,32 @@ const storage = multer.diskStorage(
     },
   }
 );
-
+const fileUpload = multer()
 const upload = multer({ storage: storage });
+router.post('/upload', fileUpload.single('image'), function (req, res, next) {
+  let streamUpload = (req) => {
+      return new Promise((resolve, reject) => {
+          let stream = cloudinary.uploader.upload_stream(
+            (error, result) => {
+              if (result) {
+                resolve(result);
+              } else {
+                reject(error);
+              }
+            }
+          );
 
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+  };
+
+  async function upload(req) {
+      let result = await streamUpload(req);
+      console.log(result);
+  }
+
+  upload(req);
+});
 router.post('/', upload.any('image'), async (req, res) => {
 
   try {
@@ -174,7 +199,7 @@ router.post('/forgot-password', async (req, res, next) => {
       }
       const token = jwt.sign(payload, secret, { expiresIn: "15min" });
  /*      console.log("eeeeeeeeeeeeeeeeeeeeeeee",`http://localhost:4200/resetpassword/${admin._id}/${token}`) */
-      const link = `http://185.104.172.119:3000/#/resetpassword/${admin._id}/${token}`;
+      const link = `http://localhost:4200/#/resetpassword/${admin._id}/${token}`;
   /*     console.log("linnkk",link) */
       sendEmailLink(admin.email, link)
       res.status(200).send({ etat: token });
