@@ -9,10 +9,12 @@ const sendEmailLink = async (email, link) => {
   port: 465, */
   service: 'gmail',
   port: 465,
-  secure: true,
+  secure: false,
   auth: {
-    user: "scoreapp2222@gmail.com",
-    pass: "Scoreapp@2222"
+  //  user: 'scoreapp2222@gmail.com', // generated ethereal user
+//    pass: 'Scoreapp@2222', // generated ethereal password
+user: 'scoreapp2021@gmail.com', // generated ethereal user
+pass: 'yjjbvssiusanftdr', // generated ethereal password
   },
   tls: {
     rejectUnauthorized: false
@@ -20,7 +22,7 @@ const sendEmailLink = async (email, link) => {
     });
 
     let mailOptions = {
-        from: 'scoreapp2222@gmail.com',
+        from: 'scoreapp2021@gmail.com',
         to: email,
         subject: 'Modifier votre mot de passe',
         html: `
@@ -52,9 +54,8 @@ const sendEmailLink = async (email, link) => {
       
       `
     };
-    console.log("transporter",transporter)
-  await  transporter.sendMail(mailOptions, function (error, info) {
-        console.log("info",info)
+    console.log("mailOptions",mailOptions)
+      transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
