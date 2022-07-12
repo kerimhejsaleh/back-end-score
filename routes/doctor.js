@@ -32,7 +32,7 @@ const storage = multer.diskStorage(
 const upload = multer({ storage: storage });
 
 router.post('/', upload.any('image'), async (req, res) => {
-/*   console.log(1) */
+  console.log("req.body",req.body)
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
