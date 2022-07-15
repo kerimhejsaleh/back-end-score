@@ -3,7 +3,6 @@ const video = require("../models/urlvideo");
 const router = express.Router();
 const { Video } = require('../models/urlvideo');
 
-
   router.post('/', async (req, res) => {
 console.log('fjklmlkjhgfghj',req.body)
     try {
