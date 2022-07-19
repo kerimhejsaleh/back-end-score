@@ -23,7 +23,7 @@ const demandeApi = require('./routes/demande');
 const insideApi = require('./routes/inside');
 const urlVideo = require('./routes/urlvideo');
 const paypal = require('./routes/paypal');
-
+const prix = require('./routes/prix');
 //create app
 const app = express();
 
@@ -50,6 +50,7 @@ app.use('/inside', insideApi);
 app.use('/uploadApi', uploadApi);
 app.use('/urlVideo', urlVideo);
 app.use('/paypal',paypal);
+app.use('/prix',prix);
 //app.use(express.static('../client/dist'));
 
 app.get('/getfile/:filename', function (req, res) {
