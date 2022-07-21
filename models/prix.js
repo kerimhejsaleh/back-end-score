@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   desc: {
     type: String,
   },
+  type: { type: Boolean },
 });
 
 module.exports = mongoose.model("Prix", userSchema);

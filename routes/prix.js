@@ -4,19 +4,19 @@ const router = express.Router();
 const { Video } = require('../models/urlvideo');
 
   router.post('/', async (req, res) => {
-/* console.log('fjklmlkjhgfghj',req.body) */
 
     try {
-        let prixTotal = await prix.find();
-       
+        let prixTotal = await prix.find({ type: true });
+        console.log(prixTotal) 
         let obj = req.body;
-        if(prixTotal.length==0){
+        if(prixTotal.length==0&&prixTotal.type){
    
       let prixAdd = new prix({
         title: obj.title,
         prix: obj.prix,
         currency:obj.currency,
         desc: obj.desc,
+        type: true,
 
       }); 
       await prixAdd.save();
@@ -35,11 +35,55 @@ const { Video } = require('../models/urlvideo');
       return res.status(400).send({ message: "Erreur", error });
     }
   });
+  router.post('/an', async (req, res) => {
+
+    try {
+        let prixTotal = await prix.find({ type: false });
+        console.log(req.body) 
+        let obj = req.body;
+      
+         if(prixTotal.length==0&&!prixTotal.type){
+          let prixAdd = new prix({
+            title: obj.title2,
+            prix: obj.prix2,
+            currency:obj.currency2,
+            desc: obj.desc2,
+            type: false,
+    
+          }); 
+          await prixAdd.save();
+           return res.status(200).send({prixAdd :prixAdd});
+      
+    
+    }else{
+       
+        prixUpdate = await prix.findByIdAndUpdate({ _id: prixTotal[0]._id }, { $set: {  title: obj.title,
+            prix: obj.prix,
+            currency:obj.currency,
+            desc: obj.desc} });
+            return res.status(200).send({prixAdd :prixUpdate});
+       } 
+
+    } catch (error) {
+      return res.status(400).send({ message: "Erreur", error });
+    }
+  });
   router.get("/", async (req, res) => {
     try {
       // Find user by id
-      let prixTotal = await prix.find();
-      
+      let prixTotal = await prix.find({ type: true });
+      console.log("prixTotal",prixTotal)
+      res.status(200).send( prixTotal );
+    
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  router.get("/an", async (req, res) => {
+    try {
+      // Find user by id
+      let prixTotal = await prix.find({ type: false });
+      console.log("prixTotal",prixTotal)
       res.status(200).send( prixTotal );
     
     } catch (err) {
