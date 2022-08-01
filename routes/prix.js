@@ -36,10 +36,9 @@ const { Video } = require('../models/urlvideo');
     }
   });
   router.post('/an', async (req, res) => {
-
     try {
         let prixTotal = await prix.find({ type: false });
-        console.log(req.body) 
+       /*  console.log(req.body)  */
         let obj = req.body;
       
          if(prixTotal.length==0&&!prixTotal.type){
@@ -56,11 +55,10 @@ const { Video } = require('../models/urlvideo');
       
     
     }else{
-       
-        prixUpdate = await prix.findByIdAndUpdate({ _id: prixTotal[0]._id }, { $set: {  title: obj.title,
-            prix: obj.prix,
-            currency:obj.currency,
-            desc: obj.desc} });
+        prixUpdate = await prix.findByIdAndUpdate({ _id: prixTotal[0]._id }, { $set: {  title: obj.title2,
+            prix: obj.prix2,
+            currency:obj.currency2,
+            desc: obj.desc2} });
             return res.status(200).send({prixAdd :prixUpdate});
        } 
 
@@ -72,7 +70,7 @@ const { Video } = require('../models/urlvideo');
     try {
       // Find user by id
       let prixTotal = await prix.find({ type: true });
-      console.log("prixTotal",prixTotal)
+     // console.log("prixTotal",prixTotal)
       res.status(200).send( prixTotal );
     
     } catch (err) {
@@ -83,7 +81,7 @@ const { Video } = require('../models/urlvideo');
     try {
       // Find user by id
       let prixTotal = await prix.find({ type: false });
-      console.log("prixTotal",prixTotal)
+  //    console.log("prixTotal222222222",prixTotal)
       res.status(200).send( prixTotal );
     
     } catch (err) {
@@ -101,21 +99,15 @@ const { Video } = require('../models/urlvideo');
     }
   });
   router.put("/:id", async (req, res) => {
-  /// console.log(req.body)
     try {
-     
       prixUpdate = await video.findByIdAndUpdate(req.params.id,  { prix: req.body.prix });
- 
-     /*  urlV = await video.findOneAndUpdat( { etat: true }); */
-     res.status(200).send({prixUpdate:prixUpdate});
+      res.status(200).send({prixUpdate:prixUpdate});
     } catch (err) {
       console.log(err);
     }
   });
   router.put("/delete/:id", async (req, res) => {
     try {
- 
-    /*   urlV = await video.findByIdAndUpdate(req.params.id, { etat: false }); */
       res.status(200).send(true);
     } catch (err) {
       console.log(err);
