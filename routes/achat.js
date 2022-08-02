@@ -12,11 +12,20 @@ router.get("/:id", async (req, res) => {
       console.log(err);
     }
   });
-  function addMonths(numOfMonths, date = new Date()) {
-    date.setMonth(date.getMonth() + numOfMonths);
+  router.get("/", async (req, res) => {
+    try {
+        obj = req.params.id;
+        let achat = await Achat.find()
+      res.status(200).send({achat :achat});
+    } catch (err) {
+      console.log(err);
+    }
+  });
+function addMonths(numOfMonths, date = new Date()) {
+  date.setMonth(date.getMonth() + numOfMonths);
   
-    return date;
-  }
+  return date;
+}
 router.post('/addachat', async (req, res) => {
     try {
         obj = req.body;
@@ -60,7 +69,7 @@ const dateYear =addMonths(12, date) */
          }else{
        if(achatForm.type && obj.type){
             if(new Date()<achatForm.datedefin){
-              return res.status(200).send({result :"c déja paye"});
+              return res.status(200).send({result :"déja payé"});
             }else{
               achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(1, new Date()),
                 datedebut: new Date(),
@@ -71,7 +80,7 @@ const dateYear =addMonths(12, date) */
           }
           if(!achatForm.type && !obj.type){
             if(new Date()<achatForm.datedefin){
-              return res.status(200).send({result :"c déja paye"});
+              return res.status(200).send({result :"déja payé"});
             }else{
               achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(12, new Date()),
                 datedebut: new Date(),
@@ -82,7 +91,7 @@ const dateYear =addMonths(12, date) */
           }
           if(achatForm.type && !obj.type){
             if(new Date()<achatForm.datedefin){
-              return res.status(200).send({result :"c déja paye"});
+              return res.status(200).send({result :"déja payé"});
             }else{
               achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(12, new Date()),
                 datedebut: new Date(),
@@ -93,7 +102,7 @@ const dateYear =addMonths(12, date) */
           }
           if(!achatForm.type && obj.type){
             if(new Date()<achatForm.datedefin){
-              return res.status(200).send({result :"c déja paye"});
+              return res.status(200).send({result :"déja payé"});
             }else{
               achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(1, new Date()),
                 datedebut: new Date(),
