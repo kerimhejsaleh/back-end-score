@@ -1,8 +1,10 @@
 var paypal = require('paypal-rest-sdk');
-
+const https = require('https');
+const axios = require('axios');
 var express = require('express');
 var router = express.Router();
-
+const { Doctor } = require('../models/doctor');
+const { Achat } = require('../models/achat');
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'ATzpF0ntzeI-IXCh2ReiLRRS0ft3SU24goI8uqkSYJN1BzA-AUQcNMQx3upmYuwEl6q5NYD6e2r9uFjM',
@@ -52,8 +54,8 @@ router.post('/pay', (req , res) => {
         }
     });
 })
-router.get('/success/:id/:total/:currency', (req, res) => {
-console.log(req.params.id,req.params.total,req.params.currency)
+router.get('/success/:id/:total/:currency/:type', (req, res) => {
+/* console.log(req.params.id,req.params.total,req.params.currency,req.params.type) */
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
  // console.log("payerId",payerId,"paymentId",paymentId)
@@ -72,7 +74,11 @@ console.log(req.params.id,req.params.total,req.params.currency)
           console.log(error.response);
           throw error;
       } else {
-          console.log(JSON.stringify(payment));
+            axios.post("http://185.104.172.119:3000/achat/addachat",{
+                    "user" :req.params.id,
+                    "type":req.params.type
+                }) 
+        
           res.send('Success');
       }
   });
@@ -93,4 +99,97 @@ router.get('/history', (req, res) =>{
         }
     });
 });
+function addMonths(numOfMonths, date = new Date()) {
+    date.setMonth(date.getMonth() + numOfMonths);
+    
+    return date;
+  }
+/*   function addachatT(id,type){
+  
+    router.post('/addachat', async (req, res) => {
+        try {
+            console.log(id,type,"hh")
+            obj = req.body;
+          
+             if(achatForm==null) {
+             console.log("1")  
+             if(obj.type){
+              let achat = new Achat({
+                user:id,
+                datedefin:addMonths(1, new Date()),
+                datedebut:new Date(),
+                type:type
+        
+              }); 
+              await achat.save()
+              return res.status(200).send({ result: true })
+             }else{
+              let achat = new Achat({
+                user:id,
+                datedefin:addMonths(12, new Date()),
+                datedebut:new Date(),
+                type:type
+        
+              }); 
+              await achat.save()
+              return res.status(200).send({ result: true })
+             }
+                      
+              
+             }else{
+           if(achatForm.type && type){
+                if(new Date()<achatForm.datedefin){
+                  return res.status(200).send({result :"déja payé"});
+                }else{
+                  achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(1, new Date()),
+                    datedebut: new Date(),
+               
+                  } });
+                    return res.status(200).send({result :achaUpdate});
+                }
+              }
+              if(!achatForm.type && !type){
+                if(new Date()<achatForm.datedefin){
+                  return res.status(200).send({result :"déja payé"});
+                }else{
+                  achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(12, new Date()),
+                    datedebut: new Date(),
+                 
+                  } });
+                    return res.status(200).send({result :achaUpdate});
+                }
+              }
+              if(achatForm.type && !type){
+                if(new Date()<achatForm.datedefin){
+                  return res.status(200).send({result :"déja payé"});
+                }else{
+                  achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(12, new Date()),
+                    datedebut: new Date(),
+                    type:type
+                  } });
+                    return res.status(200).send({result :achaUpdate});
+                }
+              }
+              if(!achatForm.type && type){
+                if(new Date()<achatForm.datedefin){
+                  return res.status(200).send({result :"déja payé"});
+                }else{
+                  achaUpdate = await Achat.findByIdAndUpdate({ _id: achatForm._id }, { $set: {  datedefin: addMonths(1, new Date()),
+                    datedebut: new Date(),
+                    type:obj.type
+                  } });
+                    return res.status(200).send({result :achaUpdate});
+                }
+              } 
+             }
+           
+       
+    
+           
+        } catch (error) {
+            res.status(400).send({ message: "Erreur", error });
+        }
+    });
+  }
+ */
 module.exports = router

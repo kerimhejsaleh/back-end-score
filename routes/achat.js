@@ -27,8 +27,10 @@ function addMonths(numOfMonths, date = new Date()) {
   return date;
 }
 router.post('/addachat', async (req, res) => {
+ 
     try {
         obj = req.body;
+        console.log("obj",obj)
         let doctor = await Doctor.findOne({ _id: obj.user })
         let achatForm = await Achat.findOne({ user: obj.user })
  /*       console.log("achatForm",achatForm)  */

@@ -17,7 +17,7 @@ const adminApi = require('./routes/admin');
 const patientApi = require('./routes/patient');
 const doctorApi = require('./routes/doctor');
 const dossierApi = require('./routes/dossier');
-const uploadApi = require('./routes/uploadvideo');
+/* const uploadApi = require('./routes/uploadvideo'); */
 const responseApi = require('./routes/response');
 const demandeApi = require('./routes/demande');
 const insideApi = require('./routes/inside');
@@ -48,12 +48,12 @@ app.use('/dossier', dossierApi);
 app.use('/response', responseApi);
 app.use('/demande', demandeApi);
 app.use('/inside', insideApi);
-app.use('/uploadApi', uploadApi);
+/* app.use('/uploadApi', uploadApi); */
 app.use('/urlVideo', urlVideo);
 app.use('/paypal',paypal);
 app.use('/prix',prix);
 app.use('/achat',achat);
-//app.use(express.static('../client/dist'));
+/* app.use(express.static('../client/dist')); */
 
 app.get('/getfile/:filename', function (req, res) {
 	let file = path.join(__dirname + '/upload/' + req.params.filename)
