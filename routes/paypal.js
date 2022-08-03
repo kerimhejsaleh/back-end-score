@@ -90,7 +90,7 @@ router.get('/success/:id/:total/:currency/:type', (req, res) => {
                 background: #EBF0F5;
               }
                 h1 {
-                  color: #88B04B;
+                  color: rgb(212, 66, 38);
                   font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
                   font-weight: 900;
                   font-size: 40px;
@@ -103,7 +103,7 @@ router.get('/success/:id/:total/:currency/:type', (req, res) => {
                   margin: 0;
                 }
               i {
-                color: #9ABC66;
+                color: rgb(212, 66, 38);
                 font-size: 100px;
                 line-height: 200px;
                 margin-left:-15px;
@@ -122,8 +122,8 @@ router.get('/success/:id/:total/:currency/:type', (req, res) => {
               <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
                 <i class="checkmark">✓</i>
               </div>
-                <h1>Success</h1> 
-                <p>We received your purchase request;<br/> we'll be in touch shortly!</p>
+                <h1>Succès</h1> 
+                <p>Nous avons reçu votre d’achat;</p>
               </div>
             </body>
         </html>`);
