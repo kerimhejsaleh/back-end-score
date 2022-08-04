@@ -74,7 +74,7 @@ router.get('/success/:id/:total/:currency/:type', (req, res) => {
           console.log(error.response);
           throw error;
       } else {
-            axios.post("http://185.104.172.119:3000/achat/addachat",{
+            axios.post("http://localhost:3000/achat/addachat",{
                     "user" :req.params.id,
                     "type":req.params.type
                 }) 
