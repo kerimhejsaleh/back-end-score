@@ -76,7 +76,7 @@ router.post("/audio", async (req, res) => {
   //...
   
 router.post("/", upload.single("image"), async (req, res) => {
-    console.log("hhhh",req.file.path)
+    console.log("hhhh",req.file)
   try {
     
     const result = await cloudinary.uploader.upload(req.file.path);
