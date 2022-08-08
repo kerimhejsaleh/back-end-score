@@ -90,7 +90,8 @@ router.post('/login', async (req, res) => {
     let adminData = req.body
 
     let admin = await Admin.findOne({ email: adminData.email })
-
+/*     let admind = await Admin.find()
+    console.log("kekkeke",admind) */
     if (!admin) {
       return res.status(404).send('Invalid Email')
     } else {

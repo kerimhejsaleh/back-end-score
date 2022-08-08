@@ -3,7 +3,8 @@ const router = express.Router();
 const { Doctor } = require('../models/doctor');
 const { Achat } = require('../models/achat');
 const  Achat2  = require('../models/achat');
-router.get("/:id", async (req, res) => {
+const { verifyToken } = require('../middlewares/verifyToken');
+router.get("/:id",verifyToken, async (req, res) => {
     try {
         obj = req.params.id;
         let doctor = await Achat.find({ user: obj })
@@ -26,7 +27,7 @@ function addMonths(numOfMonths, date = new Date()) {
   
   return date;
 }
-router.post('/addachat', async (req, res) => {
+router.post('/addachat',verifyToken, async (req, res) => {
  
     try {
         obj = req.body;

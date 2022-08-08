@@ -4,6 +4,7 @@ const upload = require("../utils/multer");
 const User = require("../models/uploadVideo");
 const router = express.Router();
 multer  = require('multer');
+const bodyParser = require("body-parser");
 //...
 
 router.post("/audio", async (req, res) => {
@@ -76,15 +77,15 @@ router.post("/audio", async (req, res) => {
   //...
   
 router.post("/", upload.single("image"), async (req, res) => {
-    console.log("hhhh",req.file)
+  /*   console.log("hhhh",req.body) */
   try {
     
-    const result = await cloudinary.uploader.upload(req.file.path);
+    const result = await cloudinary.uploader.upload(req.body.image);
     cloudinary.video("dog", {controls:true, transformation: [
         {width: 0.4, angle: 20},
         {overlay: "cloudinary_icon_white", width: 60, opacity: 50, gravity: "south_east", y: 15, x: 60}
         ]})
-    console.log(result);
+/*     console.log(result); */
   
     let user = new User({
       name: req.body.name,
@@ -94,8 +95,8 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     
    await user.save();
-   
-    res.status(200).send(user);
+   res.json(user.avatar)
+/*     res.status(200).send(user.avatar); */
   } catch (err) {
     console.log(err);
   }

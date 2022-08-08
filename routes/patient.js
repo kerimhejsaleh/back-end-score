@@ -48,8 +48,10 @@ router.post('/', upload.any('image'), async (req, res) => {
         const salt = bcrypt.genSaltSync(10);
         // now we set user password to hashed password
         patient.password = bcrypt.hashSync(patient.password, salt);
-
-        filename1[0] ? patient.photo = filename1[0] : patient.photo = 'default.png';
+/*         console.log("patient",patient)
+   console.log("patient.photo",patient.photo)
+   console.log("filename1[0]",filename1[0]) */
+   patient.photo==undefined ? patient.photo = 'default.png' : patient.photo=patient.photo;
         patient.account_state = true;
         patient.archived = false;
         patient.added_date = new Date();
@@ -153,7 +155,7 @@ router.get('/getbygender/:genre', verifyToken, async (req, res) => {
 });
 
 router.put('/:id', verifyToken, async (req, res) => {
-  console.log("req.body",req.body)
+/*   console.log("req.body",req.body) */
   try {
     let id = req.params.id;
     let data = req.body
@@ -178,11 +180,11 @@ router.put('/:id', verifyToken, async (req, res) => {
 
 
 router.put('/updatephoto/:id', upload.any('image'), async (req, res) => {
-
+/* console.log("req.body.image",req.body.image) */
   try {
     let id = req.params.id;
 
-    let updated = await Patient.findByIdAndUpdate({ _id: id }, { $set: { photo: filename1[0] } })
+    let updated = await Patient.findByIdAndUpdate({ _id: id }, { $set: { photo:  req.body.image  } })
 
     if (!updated) {
       res.status(404).send('Admin not found')

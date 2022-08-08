@@ -6,6 +6,8 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 
+
+const bodyParser = require("body-parser");
 //connection to db
 require('./db/mongoose');
 
@@ -36,6 +38,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('../client/dist'));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+/* bodyParser = {
+	json: {limit: '50mb', extended: true},
+	urlencoded: {limit: '50mb', extended: true}
+  }; */
 //routes
 app.use('/affectation', affectationApi);
 app.use('/affect', affectApi);
