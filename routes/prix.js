@@ -7,7 +7,7 @@ const { Video } = require('../models/urlvideo');
 
     try {
         let prixTotal = await prix.find({ type: true });
-        console.log(prixTotal) 
+       /*  console.log(prixTotal)  */
         let obj = req.body;
         if(prixTotal.length==0&&prixTotal.type){
    

@@ -140,8 +140,8 @@ router.put('/updatephoto/:id', upload.any('image'), async (req, res) => {
 
   try {
     let id = req.params.id;
-
-    let updated = await Admin.findByIdAndUpdate({ _id: id }, { $set: { photo: filename1[0] } })
+  
+    let updated = await Admin.findByIdAndUpdate({ _id: id }, { $set: { photo: req.body.image } })
 
     if (!updated) {
       res.status(404).send('Admin not found')
