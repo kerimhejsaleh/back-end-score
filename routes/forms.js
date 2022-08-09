@@ -101,6 +101,37 @@ router.get('/getforms', verifyToken, async (req, res) => {
     }
 
 });
+router.get("/search/:key",async (req,resp)=>{
+    let data = await Forms.find(
+        {
+            "$or":[
+                {title:{$regex:req.params.key}},
+            ]
+        }
+    ).sort().skip(req.body.a).limit(req.body.b);
+    resp.send(data);
+
+})
+
+router.get('/getforms/:a/:b', verifyToken, async (req, res) => {
+    /* console.log("uuuuu",res) */
+        try {
+            console.log("uuuuu",req.body.a)
+            let forms = await Forms.find({ archived: false }).sort().skip(req.body.a).limit(req.body.b);
+          /*  console.log("uuuuu",forms)  */
+            let tabForms = []
+          for (let i = 0; i < forms.length; i++){
+              console.log(forms[i].title)
+              tabForms.push(forms[i])
+          } 
+            res.status(200).send({forms :forms.length , totalLength : forms.length});
+    
+        } catch (error) {
+            res.status(400).send({ message: "Erreur", error });
+        }
+    
+    });
+
 router.get('/getformsaffec', verifyToken, async (req, res) => {
 
     try {
@@ -146,10 +177,13 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
   /*  console.log('eee',new Date()) */
 
     try {
-
+        let form = await Forms.find({ title: req.body.title });
         let id = req.params.id;
         let data = req.body;
+   /*      console.log(form.length) */
  /*  console.log('eee',data)  */
+    if(form.length==0 || form.length != 0 && data._id==form[0]._id){
+/*         console.log('ghjklkkjkkjjk') */
         const salt = bcrypt.genSaltSync(10);
         // now we set user password to hashed password
         password = bcrypt.hashSync(data.password, salt);
@@ -209,6 +243,11 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
                 res.status(200).send(updatedForm);
             }
         }
+    }else {
+/*         console.log('hhhhhhhhhhhhhhh') */
+        res.status(200).send(false);
+    }
+      
 
 
 
