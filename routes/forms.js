@@ -105,7 +105,7 @@ router.get("/search/:key",async (req,resp)=>{
     let data = await Forms.find(
         {
             "$or":[
-                {title:{$regex:req.params.key}},
+                {title:{$regex:new RegExp(req.params.key, "i") }},
             ]
         }
     ).sort().skip(req.body.a).limit(req.body.b);
@@ -116,12 +116,12 @@ router.get("/search/:key",async (req,resp)=>{
 router.get('/getforms/:a/:b', verifyToken, async (req, res) => {
     /* console.log("uuuuu",res) */
         try {
-            console.log("uuuuu",req.body.a)
+         /*    console.log("uuuuu",req.body.a) */
             let forms = await Forms.find({ archived: false }).sort().skip(req.body.a).limit(req.body.b);
           /*  console.log("uuuuu",forms)  */
             let tabForms = []
           for (let i = 0; i < forms.length; i++){
-              console.log(forms[i].title)
+             /*  console.log(forms[i].title) */
               tabForms.push(forms[i])
           } 
             res.status(200).send({forms :forms.length , totalLength : forms.length});
