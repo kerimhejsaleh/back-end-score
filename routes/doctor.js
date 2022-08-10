@@ -36,7 +36,7 @@ router.post('/', upload.any('image'), async (req, res) => {
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
-console.log(11,doctor)
+/* console.log(11,doctor) */
 doctor.account_state_dossier_affectation=false
 doctor.liste_dossier= [{
   id:"",
@@ -46,7 +46,7 @@ doctor.liste_dossier= [{
   valLenght:false,
   checkedone:false
 }]
-console.log(1321,doctor)
+/* console.log(1321,doctor) */
     let findEmailInDoctor = await Doctor.findOne({ email: doctor.email })
     let findEmailInPatient = await Patient.findOne({ email: doctor.email })
 
@@ -187,9 +187,9 @@ router.put('/:id', verifyToken, async (req, res) => {
   try {
     let id = req.params.id;
     let data = req.body
-console.log("data.password",data.password)
+/* console.log("data.password",data.password) */
     data.password ? data.password = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10)) : delete data.password
-    console.log("data.password11",data.password)
+ /*    console.log("data.password11",data.password) */
     let updateddoctor = await Doctor.findByIdAndUpdate({ _id: id }, data, { new: true })
 
     if (!updateddoctor) {

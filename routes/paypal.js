@@ -12,7 +12,7 @@ paypal.configure({
   'client_secret': 'ED1jI0nMbeRyCfYlEA7vWzoDk6qAGFIbCy8xA6WIJmUNxr31RgwyzIji238X29_iAKO_iZ-ICQDhHdky'
 });
 router.post('/pay',verifyToken, (req , res) => {
-    console.log(1,req.body)
+/*     console.log(1,req.body) */
     var create_payment_json = req.body;
     
 /*     router.get('/success', (req,res) => {
@@ -38,12 +38,12 @@ router.post('/pay',verifyToken, (req , res) => {
             }
         });
     }) */
-    console.log(2)
+  /*   console.log(2) */
     paypal.payment.create(create_payment_json, function (error, payment) {
         if (error) {
             throw error;
         } else {
-            console.log("Create Payment Response");
+           /*  console.log("Create Payment Response"); */
           //  console.log(payment.links);
             for(let i = 0 ; i < payment.links.length; i++) {
                 if(payment.links[i].rel == 'approval_url') {

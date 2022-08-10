@@ -39,11 +39,11 @@ router.post('/addaffectationallformssucces/:id', async (req, res,next) => {
       try {
           obj = req.body;
           var arr = [1,2,3,4,5];
-          console.log("111111111",req.params.id)
+         /*  console.log("111111111",req.params.id) */
           let forms = await Forms.find({ archived: false }).sort({ 'title': 1 })
   
         await  forms.map(async (result) =>{
-            console.log("111111111")
+        /*     console.log("111111111") */
               let doctor = await Doctor.findOne({ _id: req.params.id, archived: false })
               let form = await Forms.findOne({ _id: result._id, archived: false }) 
             if (!doctor || !form) {
@@ -78,7 +78,7 @@ router.post('/addaffectationallforms', verifyToken, async (req, res,next) => {
 
 
       await  obj.map(async (result) =>{
-          console.log(result)
+         /*  console.log(result) */
             let doctor = await Doctor.findOne({ _id: result.user, archived: false })
             let form = await Forms.findOne({ _id: result.form, archived: false }) 
           if (!doctor || !form) {

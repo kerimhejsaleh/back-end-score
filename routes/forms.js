@@ -34,7 +34,7 @@ const upload = multer({ storage: storage });
 router.post('/upload', upload.any('image'), (req, res) => {
     let imagePath = filename1[0];
     filename1 = [];
-    console.log(imagePath);
+  /*   console.log(imagePath); */
     res.send({ image: imagePath });
 
 
@@ -421,7 +421,7 @@ async function deleteFiles(id) {
                         for (let o of q.options) {
                             if (o.image && o.image.length > 1) {
                                 fs.unlink('./upload/' + o.image, function (err) {
-                                    console.log(o.image);
+                                   /*  console.log(o.image); */
                                     if (err) {
                                         console.error(err);
                                     }
@@ -440,7 +440,7 @@ router.post('/deletemany', (req, res) => {
     images = req.body.images;
     for (let img of images) {
         fs.unlink('./upload/' + img, function (err) {
-            console.log(img);
+         /*    console.log(img); */
             if (err) {
                 console.error(err);
                 return res.status(400).send({ message: "Erreur", error: err })

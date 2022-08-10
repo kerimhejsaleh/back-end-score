@@ -31,7 +31,7 @@ router.post('/addachat',verifyToken, async (req, res) => {
  
     try {
         obj = req.body;
-        console.log("obj",obj)
+      /*   console.log("obj",obj) */
         let doctor = await Doctor.findOne({ _id: obj.user })
         let achatForm = await Achat.findOne({ user: obj.user })
  /*       console.log("achatForm",achatForm)  */
@@ -48,7 +48,7 @@ console.log("obj",typeof myBool,myBool) */
             return res.status(404).send({ message: "Not found" })
         }
          if(achatForm==null) {
-         console.log("1")  
+      /*    console.log("1")   */
          if(obj.type=="true"){
           let achat = new Achat({
             user:obj.user,
