@@ -49,7 +49,7 @@ router.post('/upload', fileUpload.single('image'), function (req, res, next) {
 
   async function upload(req) {
       let result = await streamUpload(req);
-      console.log(result);
+    /*   console.log(result); */
   }
 
   upload(req);
@@ -85,12 +85,13 @@ router.post('/', upload.any('image'), async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-   console.log('usee') 
+/*    console.log('usee')  */
   try {
     let adminData = req.body
 
     let admin = await Admin.findOne({ email: adminData.email })
-
+/*     let admind = await Admin.find()
+    console.log("kekkeke",admind) */
     if (!admin) {
       return res.status(404).send('Invalid Email')
     } else {
@@ -139,8 +140,8 @@ router.put('/updatephoto/:id', upload.any('image'), async (req, res) => {
 
   try {
     let id = req.params.id;
-
-    let updated = await Admin.findByIdAndUpdate({ _id: id }, { $set: { photo: filename1[0] } })
+  
+    let updated = await Admin.findByIdAndUpdate({ _id: id }, { $set: { photo: req.body.image } })
 
     if (!updated) {
       res.status(404).send('Admin not found')

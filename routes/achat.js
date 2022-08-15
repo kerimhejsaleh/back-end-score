@@ -3,7 +3,8 @@ const router = express.Router();
 const { Doctor } = require('../models/doctor');
 const { Achat } = require('../models/achat');
 const  Achat2  = require('../models/achat');
-router.get("/:id", async (req, res) => {
+const { verifyToken } = require('../middlewares/verifyToken');
+router.get("/:id",verifyToken, async (req, res) => {
     try {
         obj = req.params.id;
         let doctor = await Achat.find({ user: obj })
@@ -32,16 +33,19 @@ router.post('/addachat', async (req, res) => {
       console.log("2")
 
         obj = req.body;
-        console.log("obj",obj)
+      /*   console.log("obj",obj) */
         let doctor = await Doctor.findOne({ _id: obj.user })
         let achatForm = await Achat.findOne({ user: obj.user })
  /*       console.log("achatForm",achatForm)  */
- const result = addMonths(2);
+/*  const result = addMonths(2); */
 
 // 👇️ Add months to another date
 /* const date = new Date();
 const dateMonth =addMonths(1, date)
 const dateYear =addMonths(12, date) */
+/* console.log("obj",typeof obj.type,obj.type)
+var myBool = Boolean(obj.type); 
+console.log("obj",typeof myBool,myBool) */
          if (!doctor) {
           console.log("3")
 

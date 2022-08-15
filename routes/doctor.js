@@ -32,11 +32,11 @@ const storage = multer.diskStorage(
 const upload = multer({ storage: storage });
 
 router.post('/', upload.any('image'), async (req, res) => {
-  console.log("req.body",req.body)
+/*   console.log("req.body",req.body) */
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
-console.log(11,doctor)
+/* console.log(11,doctor) */
 doctor.account_state_dossier_affectation=false
 doctor.liste_dossier= [{
   id:"",
@@ -46,7 +46,7 @@ doctor.liste_dossier= [{
   valLenght:false,
   checkedone:false
 }]
-console.log(1321,doctor)
+/* console.log(1321,doctor) */
     let findEmailInDoctor = await Doctor.findOne({ email: doctor.email })
     let findEmailInPatient = await Patient.findOne({ email: doctor.email })
 
@@ -58,7 +58,8 @@ console.log(1321,doctor)
         // now we set user password to hashed password
         doctor.password = bcrypt.hashSync(doctor.password, salt);
 
-        filename1[0] ? doctor.photo = filename1[0] : doctor.photo = 'default.png';
+      /*   filename1[0] ? doctor.photo = filename1[0] : doctor.photo = 'default.png'; */
+        doctor.photo==undefined ? doctor.photo = 'default.png' : doctor.photo=doctor.photo;
         doctor.account_state = true;
         doctor.archived = false;
         doctor.added_date = new Date();
@@ -136,11 +137,11 @@ router.get('/:id', verifyToken, async (req, res) => {
 });
 
 router.put('/updatephoto/:id', upload.any('image'), async (req, res) => {
-/*   console.log(4) */
+ /*   console.log(4,req.body.image)  */
   try {
     let id = req.params.id;
 
-    let updated = await Doctor.findByIdAndUpdate({ _id: id }, { $set: { photo: filename1[0] } })
+    let updated = await Doctor.findByIdAndUpdate({ _id: id }, { $set: { photo: req.body.image } })
 
     if (!updated) {
       res.status(404).send('Admin not found')
@@ -186,9 +187,9 @@ router.put('/:id', verifyToken, async (req, res) => {
   try {
     let id = req.params.id;
     let data = req.body
-console.log("data.password",data.password)
+/* console.log("data.password",data.password) */
     data.password ? data.password = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10)) : delete data.password
-    console.log("data.password11",data.password)
+ /*    console.log("data.password11",data.password) */
     let updateddoctor = await Doctor.findByIdAndUpdate({ _id: id }, data, { new: true })
 
     if (!updateddoctor) {

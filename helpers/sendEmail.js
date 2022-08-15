@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 
 
 const sendEmailLink = async (email, link) => {
- console.log("l,,emaillll",email,link) 
+/*  console.log("l,,emaillll",email,link)  */
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
 /*         host: "smtp.gmail.com",
@@ -54,7 +54,7 @@ pass: 'yjjbvssiusanftdr', // generated ethereal password
       
       `
     };
-    console.log("mailOptions",mailOptions)
+   /*  console.log("mailOptions",mailOptions) */
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);

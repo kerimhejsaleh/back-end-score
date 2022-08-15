@@ -5,13 +5,14 @@ var express = require('express');
 var router = express.Router();
 const { Doctor } = require('../models/doctor');
 const { Achat } = require('../models/achat');
+const { verifyToken } = require('../middlewares/verifyToken');
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'ATzpF0ntzeI-IXCh2ReiLRRS0ft3SU24goI8uqkSYJN1BzA-AUQcNMQx3upmYuwEl6q5NYD6e2r9uFjM',
   'client_secret': 'ED1jI0nMbeRyCfYlEA7vWzoDk6qAGFIbCy8xA6WIJmUNxr31RgwyzIji238X29_iAKO_iZ-ICQDhHdky'
 });
-router.post('/pay', (req , res) => {
-    console.log(1,req.body)
+router.post('/pay',verifyToken, (req , res) => {
+/*     console.log(1,req.body) */
     var create_payment_json = req.body;
     
 /*     router.get('/success', (req,res) => {
@@ -37,12 +38,12 @@ router.post('/pay', (req , res) => {
             }
         });
     }) */
-    console.log(2)
+  /*   console.log(2) */
     paypal.payment.create(create_payment_json, function (error, payment) {
         if (error) {
             throw error;
         } else {
-            console.log("Create Payment Response");
+           /*  console.log("Create Payment Response"); */
           //  console.log(payment.links);
             for(let i = 0 ; i < payment.links.length; i++) {
                 if(payment.links[i].rel == 'approval_url') {

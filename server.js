@@ -6,6 +6,8 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 
+
+const bodyParser = require("body-parser");
 //connection to db
 require('./db/mongoose');
 
@@ -33,9 +35,19 @@ const port = process.env.PORT || 3000
 
 //cors , json and files config
 app.use(cors());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('../client/dist'));
+
+/* app.use(express.json({limit: '5000mb'}));
+app.use(express.urlencoded({limit: '5000mb'}));
+ app.use(bodyParser.urlencoded({limit: "5000mb", extended: true, parameterLimit:50000000}));  */
+/* bodyParser = {
+	json: {limit: '50mb', extended: true},
+	urlencoded: {limit: '50mb', extended: true}
+  }; */
 //routes
 app.use('/affectation', affectationApi);
 app.use('/affect', affectApi);
@@ -48,7 +60,7 @@ app.use('/dossier', dossierApi);
 app.use('/response', responseApi);
 app.use('/demande', demandeApi);
 app.use('/inside', insideApi);
- app.use('/uploadApi', uploadApi); 
+app.use('/uploadApi', uploadApi); 
 app.use('/urlVideo', urlVideo);
 app.use('/paypal',paypal);
 app.use('/prix',prix);
