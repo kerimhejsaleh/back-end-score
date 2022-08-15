@@ -2,20 +2,23 @@ const nodemailer = require("nodemailer");
 
 
 const sendEmailLink = async (email, link) => {
-/* console.log("l,,emaillll",email,link) */
+/*  console.log("l,,emaillll",email,link)  */
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        port: 465,
-        secure: true,
-
-        auth: {
-            user: 'scoreapp2021@gmail.com', // generated ethereal user
-            pass: 'yjjbvssiusanftdr', // generated ethereal password
-        },
-        tls: {
-            rejectUnauthorized: false
-        }
+/*         host: "smtp.gmail.com",
+  port: 465, */
+  service: 'gmail',
+  port: 465,
+  secure: false,
+  auth: {
+  //  user: 'scoreapp2222@gmail.com', // generated ethereal user
+//    pass: 'Scoreapp@2222', // generated ethereal password
+user: 'scoreapp2021@gmail.com', // generated ethereal user
+pass: 'yjjbvssiusanftdr', // generated ethereal password
+  },
+  tls: {
+    rejectUnauthorized: false
+}
     });
 
     let mailOptions = {
@@ -51,8 +54,8 @@ const sendEmailLink = async (email, link) => {
       
       `
     };
-
-    transporter.sendMail(mailOptions, function (error, info) {
+   /*  console.log("mailOptions",mailOptions) */
+      transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
@@ -72,6 +75,7 @@ const sendEmail = async (email, password) => {
             user: 'scoreapp2222@gmail.com', // generated ethereal user
             pass: 'yjjbvssiusanftdr', // generated ethereal password
         },
+        
     });
 
     let mailOptions = {

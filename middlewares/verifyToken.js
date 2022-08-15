@@ -50,25 +50,25 @@ module.exports = {
         try {
             let admin;
             if (!req.headers.authorization) {
-                console.log(1);
+             /*    console.log(1); */
                 return res.status(401).send('Unauthorized request')
             }
             let token = req.headers.authorization.split(' ')[1]
             if (!token) {
-                console.log(2);
+              /*   console.log(2); */
                 return res.status(401).send('Unauthorized request')
             }
             let userData = getUserData(token);
             if (userData) {
                 admin = await Admin.findOne({ _id: userData._id, email: userData.email, password: userData.password });
                 if (!admin) {
-                    console.log(2);
+                  /*   console.log(2); */
                     res.status(401).send('Unauthorized request')
                 } else {
                     next()
                 }
             } else {
-                console.log(3);
+              /*   console.log(3); */
                 res.status(401).send('Unauthorized request')
             }
         } catch (error) {

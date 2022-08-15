@@ -34,16 +34,51 @@ router.post('/addaffectation', verifyToken, async (req, res) => {
         res.status(400).send({ message: "Erreur", error });
     }
 });
-
+router.post('/addaffectationallformssucces/:id', async (req, res,next) => {
+    /*  console.log("req.body",req.body.length)  */
+      try {
+          obj = req.body;
+          var arr = [1,2,3,4,5];
+         /*  console.log("111111111",req.params.id) */
+          let forms = await Forms.find({ archived: false }).sort({ 'title': 1 })
+  
+        await  forms.map(async (result) =>{
+        /*     console.log("111111111") */
+              let doctor = await Doctor.findOne({ _id: req.params.id, archived: false })
+              let form = await Forms.findOne({ _id: result._id, archived: false }) 
+            if (!doctor || !form) {
+                  return res.status(404).send({ message: "Not found" })
+              } 
+                  let affectation = new Affectation(result);
+                  affectation.date = new Date();
+                  
+               let aff = await Affectation.findOne({ user: req.params.id, form: result._id }) 
+               if (!aff) {
+            
+                  await affectation.save()
+                    res.status(200).send({ affected: 1 })
+                    return
+                   
+              } else {
+                  res.status(200).send({ affected: 0 });
+                  return
+                
+              }
+          })
+      } catch (error) {
+      
+          res.status(400).send({ message: "Erreur", error });
+      }
+  });
 router.post('/addaffectationallforms', verifyToken, async (req, res,next) => {
-   console.log("req.body",req.body.length) 
+  /*  console.log("req.body",req.body.length)  */
     try {
         obj = req.body;
         var arr = [1,2,3,4,5];
 
 
       await  obj.map(async (result) =>{
-          console.log(result)
+         /*  console.log(result) */
             let doctor = await Doctor.findOne({ _id: result.user, archived: false })
             let form = await Forms.findOne({ _id: result.form, archived: false }) 
           if (!doctor || !form) {

@@ -34,18 +34,57 @@ const upload = multer({ storage: storage });
 router.post('/upload', upload.any('image'), (req, res) => {
     let imagePath = filename1[0];
     filename1 = [];
-    console.log(imagePath);
+  /*   console.log(imagePath); */
     res.send({ image: imagePath });
 
 
 });
 
 
+        
+router.get("/search/:key",async (req,resp)=>{
+
+    let data = await Forms.find(
+
+        {
+
+            "$or":[
+
+                {title:{$regex:new RegExp("^" + req.params.key.toLowerCase(), "i")}},
+
+            ]
+
+        }
+
+    ).sort().skip(req.body.a).limit(req.body.b);
+
+    resp.send(data);
+
+    
+
+});
 
 
+router.get('/getformskip/:page', verifyToken, async (req, res) => {
+const { page = 1 } = req.params;
+const limit = 10;
+
+// core data , total , current 
+try {
+    const formsPages = await Forms.find().limit(limit).skip((page - 1) * limit).exec();
+    const count = await Forms.countDocuments();
+    res.json({
+    formsPages,
+    totalPages : Math.ceil(count / limit),
+    currenPage : Number(page),
+    });
+} catch (error) {
+    res.sendStatus(500).json({'msg' : 'Server Error'});
+}
+});
 
 router.post('/addforms', verifyToken, async (req, res) => {
-    console.log("req.body",req.body)
+ /*    console.log("req.body",req.body) */
   
     try {
        
@@ -101,6 +140,37 @@ router.get('/getforms', verifyToken, async (req, res) => {
     }
 
 });
+router.get("/search/:key",async (req,resp)=>{
+    let data = await Forms.find(
+        {
+            "$or":[
+                {title:{$regex:new RegExp(req.params.key, "i") }},
+            ]
+        }
+    ).sort().skip(req.body.a).limit(req.body.b);
+    resp.send(data);
+
+})
+
+router.get('/getforms/:a/:b', verifyToken, async (req, res) => {
+    /* console.log("uuuuu",res) */
+        try {
+         /*    console.log("uuuuu",req.body.a) */
+            let forms = await Forms.find({ archived: false }).sort().skip(req.body.a).limit(req.body.b);
+          /*  console.log("uuuuu",forms)  */
+            let tabForms = []
+          for (let i = 0; i < forms.length; i++){
+             /*  console.log(forms[i].title) */
+              tabForms.push(forms[i])
+          } 
+            res.status(200).send({forms :forms.length , totalLength : forms.length});
+    
+        } catch (error) {
+            res.status(400).send({ message: "Erreur", error });
+        }
+    
+    });
+
 router.get('/getformsaffec', verifyToken, async (req, res) => {
 
     try {
@@ -146,10 +216,13 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
   /*  console.log('eee',new Date()) */
 
     try {
-
+        let form = await Forms.find({ title: req.body.title });
         let id = req.params.id;
         let data = req.body;
+   /*      console.log(form.length) */
  /*  console.log('eee',data)  */
+    if(form.length==0 || form.length != 0 && data._id==form[0]._id){
+/*         console.log('ghjklkkjkkjjk') */
         const salt = bcrypt.genSaltSync(10);
         // now we set user password to hashed password
         password = bcrypt.hashSync(data.password, salt);
@@ -209,6 +282,11 @@ router.put('/updateforms/:id', verifyToken, async (req, res) => {
                 res.status(200).send(updatedForm);
             }
         }
+    }else {
+/*         console.log('hhhhhhhhhhhhhhh') */
+        res.status(200).send(false);
+    }
+      
 
 
 
@@ -382,7 +460,7 @@ async function deleteFiles(id) {
                         for (let o of q.options) {
                             if (o.image && o.image.length > 1) {
                                 fs.unlink('./upload/' + o.image, function (err) {
-                                    console.log(o.image);
+                                   /*  console.log(o.image); */
                                     if (err) {
                                         console.error(err);
                                     }
@@ -401,7 +479,7 @@ router.post('/deletemany', (req, res) => {
     images = req.body.images;
     for (let img of images) {
         fs.unlink('./upload/' + img, function (err) {
-            console.log(img);
+         /*    console.log(img); */
             if (err) {
                 console.error(err);
                 return res.status(400).send({ message: "Erreur", error: err })

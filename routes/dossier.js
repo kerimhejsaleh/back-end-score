@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
     let dossier = new Dossier(obj);
     try {
       let dos = await Dossier.find({ name: req.body.name }); 
-      console.log("dooss",dos)
+      /* console.log("dooss",dos) */
       if(dos.length==0){
       dossier.archived = false;
       dossier.added_date = new Date();
