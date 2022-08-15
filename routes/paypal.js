@@ -56,8 +56,13 @@ router.post('/pay', (req , res) => {
 })
 router.get('/success/:id/:total/:currency/:type', (req, res) => {
 /* console.log(req.params.id,req.params.total,req.params.currency,req.params.type) */
+console.log("1")
     const payerId = req.query.PayerID;
+    console.log("2")
+
     const paymentId = req.query.paymentId;
+    console.log("3")
+
  // console.log("payerId",payerId,"paymentId",paymentId)
     const execute_payment_json = {
       "payer_id": payerId,
@@ -68,13 +73,18 @@ router.get('/success/:id/:total/:currency/:type', (req, res) => {
           }
       }]
     };
-  
+    console.log("4")
+
     paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
       if (error) {
+        console.log("41")
+
           console.log(error.response);
           throw error;
       } else {
-            axios.post("http://185.104.172.119:3000/achat/addachat",{
+        console.log("42")
+
+            axios.post("http://localhost:3000/achat/addachat",{
                     "user" :req.params.id,
                     "type":req.params.type
                 }) 
@@ -130,6 +140,8 @@ router.get('/success/:id/:total/:currency/:type', (req, res) => {
        
       }
   });
+  console.log("5")
+
 });
 router.get('/cancel', (req, res) => res.send('Cancelled'));
 router.get('/history', (req, res) =>{ 

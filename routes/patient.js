@@ -32,6 +32,30 @@ const storage = multer.diskStorage(
 const upload = multer({ storage: storage });
 
 
+
+
+router.get('/getpatientskip/:page', async (req, res) => {
+  const { page = 1 } = req.params;
+  const limit = 10;
+  // core data , total , current 
+  try {
+      const patientsPages = await Patient.find().limit(limit).skip((page - 1) * limit).exec();
+      console.log("tttttttttttttttttttttttttttttttt");
+
+      const count = await Patient.countDocuments();
+      res.json({
+      patientsPages,
+      totalPages : Math.ceil(count / limit),
+      currenPage : Number(page),
+      });
+  } catch (error) {
+      res.sendStatus(500).json({'msg' : 'Server Error'});
+  }
+  });
+
+
+
+
 router.post('/', upload.any('image'), async (req, res) => {
   try {
     let obj = req.body;
