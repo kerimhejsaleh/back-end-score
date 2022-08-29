@@ -211,7 +211,7 @@ router.get('/getdemande/:id', verifyToken, async (req, res) => {
         let id = req.params.id;
         const ObjectId = mongoose.Types.ObjectId;
 
-        let doctor = await Doctor.findOne({ _id: id, archived: false });
+        let doctor = await Doctor.findOne({ _id: id, archived: null });
 
         if (!doctor) {
             return res.status(404).send({ message: "Not found" })
