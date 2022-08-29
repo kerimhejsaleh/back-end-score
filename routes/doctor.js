@@ -93,14 +93,13 @@ router.post('/login', async (req, res) => {
   try {
     let doctorData = req.body
 
-    let doctor = await Doctor.findOne({ email: doctorData.email })
+    let doctor = await Doctor.findOne({ email: doctorData.email, archived: false })
     if (!doctor) {
       res.status(404).send('not found')
     }
     else if (!doctor.account_state) {
       res.status(404).send('Compte blocké')
     }
-
     else {
       const validPassword = bcrypt.compareSync(doctorData.password, doctor.password);
       if (!validPassword) {

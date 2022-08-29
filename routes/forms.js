@@ -41,8 +41,47 @@ router.post('/upload', upload.any('image'), (req, res) => {
 });
 
 
+        
+router.get("/search/:key",async (req,resp)=>{
+
+    let data = await Forms.find(
+
+        {
+
+            "$or":[
+
+                {title:{$regex:new RegExp("^" + req.params.key.toLowerCase(), "i")}},
+
+            ]
+
+        }
+
+    ).sort().skip(req.body.a).limit(req.body.b);
+
+    resp.send(data);
+
+    
+
+});
 
 
+router.get('/getformskip/:page', verifyToken, async (req, res) => {
+const { page = 1 } = req.params;
+const limit = 10;
+
+// core data , total , current 
+try {
+    const formsPages = await Forms.find().limit(limit).skip((page - 1) * limit).exec();
+    const count = await Forms.countDocuments();
+    res.json({
+    formsPages,
+    totalPages : Math.ceil(count / limit),
+    currenPage : Number(page),
+    });
+} catch (error) {
+    res.sendStatus(500).json({'msg' : 'Server Error'});
+}
+});
 
 router.post('/addforms', verifyToken, async (req, res) => {
  /*    console.log("req.body",req.body) */
