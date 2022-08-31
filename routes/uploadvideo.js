@@ -5,7 +5,7 @@ const router = express.Router();
 router.post("/", upload.single("image"), async (req, res) => {
   /*   console.log("hhhh",req.body) */
   try {
-    
+    /* console.log("hhhh",req.body)  */
     const result = await cloudinary.uploader.upload(req.body.image);
     cloudinary.video("dog", {controls:true, transformation: [
         {width: 0.4, angle: 20},
