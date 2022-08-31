@@ -14,6 +14,7 @@ const router = express.Router();
 router.post('/addresponse', async (req, res) => {
     try {
         let obj = req.body;
+        console.log( "jj",obj)
         let patient = await Patient.findOne({ _id: obj.user, archived: false })
         let doctor = await Doctor.findOne({ _id: obj.doctor, archived: false })
         let formFromDb = await Forms.findOne({ _id: obj.form, archived: false })
@@ -562,3 +563,5 @@ router.get('/getusersresponses/:id', verifyToken, async (req, res) => {
 
 })
 module.exports = router;
+
+//test

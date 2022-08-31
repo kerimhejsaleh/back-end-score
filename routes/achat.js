@@ -15,6 +15,14 @@ router.get("/:id",verifyToken, async (req, res) => {
   });
   router.get("/", async (req, res) => {
     try {
+        let achat = await Achat.find()
+      res.status(200).send({achat :achat});
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  router.get("/", async (req, res) => {
+    try {
         obj = req.params.id;
         let achat = await Achat.find()
       res.status(200).send({achat :achat});
