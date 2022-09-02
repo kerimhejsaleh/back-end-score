@@ -211,10 +211,10 @@ router.get('/getdemande/:id', verifyToken, async (req, res) => {
         let id = req.params.id;
         const ObjectId = mongoose.Types.ObjectId;
 
-        let doctor = await Doctor.findOne({ _id: id, archived: null });
+        let doctor = await Doctor.findOne({ _id: id, archived: false });
 
         if (!doctor) {
-            return res.status(404).send({ message: "Not found" })
+            return res.status(400).send({ message: "Not found" })
         }
 
         doctorslist = [];
@@ -249,7 +249,7 @@ router.get('/getdemande/:id', verifyToken, async (req, res) => {
         }
         res.status(200).send(doctorslist)
     } catch (error) {
-        res.status(400).send({ message: "Erreur", error });
+        res.status(404).send({ message: "Erreur", error });
     }
 });
 
