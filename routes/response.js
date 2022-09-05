@@ -12,6 +12,8 @@ const { verifyToken } = require('../middlewares/verifyToken');
 const router = express.Router();
 
 router.post('/addresponse', async (req, res) => {
+    console.log("rrtrrtrtee",req.body)
+
     try {
         let obj = req.body;
         console.log( "jj",obj)
@@ -38,7 +40,6 @@ router.post('/addresponse', async (req, res) => {
         responses.form_status = formFromDb.status;
         responses.form_genre = formFromDb.genre;
         responses.form_password = formFromDb.password;
-
         responses.created_date = new Date();
         responses.archived = false;
         let sc = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -100,64 +101,66 @@ router.post('/addresponse', async (req, res) => {
 
                             console.log("formule 6",formuleCalcule);
                         }
-                        if(responses.responses[item.indexScoreForm[i]["j"]].type=="Grille de cases à cocher"){
-                            //console.log("dddddd", responses.responses[item.indexScoreForm[i]["j"]].optionsSaint);
-                            for (let j = 0; j < responses.responses[item.indexScoreForm[i]["j"]].optionsSaint.length; j++) {
-                                for (let k = 0; k < responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value.length; k++) {
-                                    if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[0][k]==true){
-                                        formuleCalcule = formuleCalcule + 3;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "3";
+                        
+                        // if(responses.responses[item.indexScoreForm[i]["j"]].type=="Grille de cases à cocher"){
+                        //     //console.log("dddddd", responses.responses[item.indexScoreForm[i]["j"]].optionsSaint);
+                        //     for (let j = 0; j < responses.responses[item.indexScoreForm[i]["j"]].optionsSaint.length; j++) {
+                        //         for (let k = 0; k < responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value.length; k++) {
+                        //             if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[0][k]==true){
+                        //                 formuleCalcule = formuleCalcule + 3;
+                        //                 formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "3";
 
     
-                                    }
-                                    if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[1][k]==true){
-                                        formuleCalcule = formuleCalcule + 2;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "2";
+                        //             }
+                        //             if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[1][k]==true){
+                        //                 formuleCalcule = formuleCalcule + 2;
+                        //                 formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "2";
 
     
-                                    }
-                                    if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[2][k]==true){
-                                        formuleCalcule = formuleCalcule + 1;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "1";
+                        //             }
+                        //             if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[2][k]==true){
+                        //                 formuleCalcule = formuleCalcule + 1;
+                        //                 formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "1";
 
     
-                                    }
-                                    if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[3][k]==true){
-                                        formuleCalcule = formuleCalcule + 0;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "0";
+                        //             }
+                        //             if(responses.responses[item.indexScoreForm[i]["j"]].optionsSaint[j].value[3][k]==true){
+                        //                 formuleCalcule = formuleCalcule + 0;
+                        //                 formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "0";
 
     
-                                    }
-                                }
-                            }
-                            console.log("formule 7",formuleCalcule);
-                   }
+                        //             }
+                        //         }
+                        //     }
+                        //     console.log("formule 7",formuleCalcule);
+                  
+                        // }
                    
-                   if(responses.responses[item.indexScoreForm[i]["j"]].type=="Grille de cases à cocher 2"){
-                    for (let j = 0; j < responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS.length; j++) {
-                        for (let k = 0; k < responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].value.length; k++) {
-                            if(responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].value[k][j]==true){
-                                console.log("score 2",responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].score );
-                                console.log("formule parcoure 2",formuleCalcule);
-                                formuleCalcule = formuleCalcule + responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].score;
-                                formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + `${responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].score}`;
+                //    if(responses.responses[item.indexScoreForm[i]["j"]].type=="Grille de cases à cocher 2"){
+                //     for (let j = 0; j < responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS.length; j++) {
+                //         for (let k = 0; k < responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].value.length; k++) {
+                //             if(responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].value[k][j]==true){
+                //                 console.log("score 2",responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].score );
+                //                 console.log("formule parcoure 2",formuleCalcule);
+                //                 formuleCalcule = formuleCalcule + responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].score;
+                //                 formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + `${responses.responses[item.indexScoreForm[i]["j"]].scoreOptioncm2.scoreS[j].score}`;
 
-                            }
-                        }
-                    }
-                }
+                //             }
+                //         }
+                //     }
+                // }
                 } 
                    else if(item.indexScoreForm[i]['i'] <= 9 && item.indexScoreForm[i]['j'] <= 9 ) { 
-                        if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type == "Cases à cocher"){
-                            for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"].length; j++) {
-                                if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"][j]["selected"]==true){
-                                    formuleCalcule = formuleCalcule + responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"][j]["score"];
-                                    formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + `${responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"][j]["score"]}`;
+                        // if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type == "Cases à cocher"){
+                        //     for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"].length; j++) {
+                        //         if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"][j]["selected"]==true){
+                        //             formuleCalcule = formuleCalcule + responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"][j]["score"];
+                        //             formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + `${responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["options"][j]["score"]}`;
 
-                                }
-                            }
+                        //         }
+                        //     }
                             
-                        }
+                        // }
                         if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type == "Choix multiples"){
                             for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["optioncm"].length; j++) {
                                 if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)]["optioncm"][j]["selected"]==true){
@@ -186,50 +189,50 @@ router.post('/addresponse', async (req, res) => {
 
                             
                         }
-                        if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type=="Grille de cases à cocher"){
-                            console.log("dddddd", responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint);
-                            for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint.length; j++) {
-                                for (let k = 0; k < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value.length; k++) {
-                                    if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[0][k]==true){
-                                        formuleCalcule = formuleCalcule + 3;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "3";
+                //         if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type=="Grille de cases à cocher"){
+                //             console.log("dddddd", responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint);
+                //             for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint.length; j++) {
+                //                 for (let k = 0; k < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value.length; k++) {
+                //                     if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[0][k]==true){
+                //                         formuleCalcule = formuleCalcule + 3;
+                //                         formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "3";
 
     
-                                    }
-                                    if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[1][k]==true){
-                                        formuleCalcule = formuleCalcule + 2;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "2";
+                //                     }
+                //                     if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[1][k]==true){
+                //                         formuleCalcule = formuleCalcule + 2;
+                //                         formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "2";
 
     
-                                    }
-                                    if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[2][k]==true){
-                                        formuleCalcule = formuleCalcule + 1;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "1";
+                //                     }
+                //                     if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[2][k]==true){
+                //                         formuleCalcule = formuleCalcule + 1;
+                //                         formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "1";
 
     
-                                    }
-                                    if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[3][k]==true){
-                                        formuleCalcule = formuleCalcule + 0;
-                                        formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "0";
+                //                     }
+                //                     if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].optionsSaint[j].value[3][k]==true){
+                //                         formuleCalcule = formuleCalcule + 0;
+                //                         formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + "0";
 
     
-                                    }
-                                }
-                            }
-                   }
-                   if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type=="Grille de cases à cocher 2"){
-                    for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS.length; j++) {
-                        for (let k = 0; k < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].value.length; k++) {
-                            if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].value[k][j]==true){
-                                console.log("score 2",responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].score );
-                                console.log("formule parcoure 2",formuleCalcule);
-                                formuleCalcule = formuleCalcule + responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].score;
-                                formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + `${responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].score}`;
+                //                     }
+                //                 }
+                //             }
+                //    }
+                //    if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].type=="Grille de cases à cocher 2"){
+                //     for (let j = 0; j < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS.length; j++) {
+                //         for (let k = 0; k < responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].value.length; k++) {
+                //             if(responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].value[k][j]==true){
+                //                 console.log("score 2",responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].score );
+                //                 console.log("formule parcoure 2",formuleCalcule);
+                //                 formuleCalcule = formuleCalcule + responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].score;
+                //                 formuleCalculeGlobal[index] = formuleCalculeGlobal[index] + `${responses.responses[parseInt(`${item.indexScoreForm[i]["j"]}${item.indexScoreForm[i]["i"]}`)].scoreOptioncm2.scoreS[j].score}`;
 
-                            }
-                        }
-                    }
-                }
+                //             }
+                //         }
+                //     }
+                // }
                         
                    } 
                     
@@ -263,11 +266,12 @@ router.post('/addresponse', async (req, res) => {
         });
             //sc = eval(formuleCalcule);
             console.log("score calculer globale formule", form.formMuti);
-            for(var i =0; i<=form.formMuti.length;i++){
-                console.log(formuleCalculeGlobal[i]);
-                sc.add(eval(formuleCalculeGlobal[i]));
-                console.log(`item ${index} of table formule`,eval(item));
-            };
+
+            // for(var i =0; i<=form.formMuti.length;i++){
+            //     console.log(formuleCalculeGlobal[i]);
+            //     sc.add(eval(formuleCalculeGlobal[i]));
+            //     console.log(`item ${index} of table formule`,eval(item));
+            // };
 
             console.log("score calculer", sc);
            // console.log("score calculer globale resultat", eval(formuleCalculeGlobal));
