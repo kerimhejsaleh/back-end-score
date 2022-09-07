@@ -56,7 +56,7 @@ router.get('/getpatientskip/:page', async (req, res) => {
 
 
 
-router.post('/', upload.any('image'), async (req, res) => {
+router.post('/',  async (req, res) => {
   try {
     let obj = req.body;
     let patient = new Patient(obj);
@@ -75,6 +75,7 @@ router.post('/', upload.any('image'), async (req, res) => {
 /*         console.log("patient",patient)
    console.log("patient.photo",patient.photo)
    console.log("filename1[0]",filename1[0]) */
+   console.log("patient.photo",patient.photo)
    patient.photo==undefined ? patient.photo = 'default.png' : patient.photo=patient.photo;
         patient.account_state = true;
         patient.archived = false;
