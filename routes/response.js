@@ -155,14 +155,36 @@ router.post('/addresponse', async (req, res) => {
                 // } 
                    //else if(formuleMuti[index].indexScoreForm[i]['i'] <= 9 && formuleMuti[index].indexScoreForm[i]['j'] <= 9 ) { 
                     let indexScoreQustion = 0;
+                    let nbQuestionindex=0;
+                    for(let sectionNb = 0 ; sectionNb < formFromDb.sections.length; sectionNb++){
+                        for(let quetionNb = 0 ; quetionNb < formFromDb.sections[sectionNb]["questions"].length; quetionNb++){
+                        //console.log("section number",formFromDb.sections.length);
+                        if(formuleMuti[index].indexScoreForm[i]['i'] == sectionNb && formuleMuti[index].indexScoreForm[i]["j"] == quetionNb ) {
+                            indexScoreQustion = nbQuestionindex;
+                            console.log("index score quetion",indexScoreQustion);
+                        }
+                        nbQuestionindex = nbQuestionindex + 1;
 
-                    if(formuleMuti[index].indexScoreForm[i]['i'] == 0 ) {
-                        indexScoreQustion = formuleMuti[index].indexScoreForm[i]["j"];
-                    }else if(formuleMuti[index].indexScoreForm[i]['i'] <= 9 && formuleMuti[index].indexScoreForm[i]['j'] <= 9 ) {
-                        indexScoreQustion = parseInt(`${formuleMuti[index].indexScoreForm[i]["j"]}${formuleMuti[index].indexScoreForm[i]["i"]}`)
-                    }
+                    }}
+
+
+                    // if(formuleMuti[index].indexScoreForm[i]['i'] == 0 ) {
+                    //     indexScoreQustion = formuleMuti[index].indexScoreForm[i]["j"];
+                    // }else if(formuleMuti[index].indexScoreForm[i]['i'] == 1 ) { 
+                    //     indexScoreQustion = formuleMuti[index].indexScoreForm[i]["j"];
+                    // }else if(formuleMuti[index].indexScoreForm[i]['i'] == 2 ) { 
+                    //     indexScoreQustion = formuleMuti[index].indexScoreForm[i]["j"];
+                    // }else if(formuleMuti[index].indexScoreForm[i]['i'] == 3 ) { 
+                    //     indexScoreQustion = formuleMuti[index].indexScoreForm[i]["j"];
+                    // }else if(formuleMuti[index].indexScoreForm[i]['i'] == 4 ) { 
+                    //     indexScoreQustion = formuleMuti[index].indexScoreForm[i]["j"];
+                    // }
+                    // else if(formuleMuti[index].indexScoreForm[i]['i'] <= 9 && formuleMuti[index].indexScoreForm[i]['j'] <= 9 ) {
+                    //     indexScoreQustion = parseInt(`${formuleMuti[index].indexScoreForm[i]["j"]}${formuleMuti[index].indexScoreForm[i]["i"]}`)
+                    // }
 
                         if(responses.responses[indexScoreQustion].type == "Cases à cocher"){
+                            console.log("indexScoreQustion",indexScoreQustion)
                             let scoreCasesAChocher = 0;
 
                             for (let j = 0; j < responses.responses[indexScoreQustion]["options"].length; j++) {
@@ -308,7 +330,7 @@ router.post('/addresponse', async (req, res) => {
             };
 
             console.log("score calculer", sc);
-            // sc.add("");
+             //sc.add("");
            // console.log("score calculer globale resultat", eval(formuleCalculeGlobal));
         }
 
@@ -399,6 +421,7 @@ router.post('/addresponse', async (req, res) => {
         await Affect.findOneAndUpdate({ user: savedresponses.user, form: savedresponses.form },
             { $set: { dateRemplissage: new Date(), etat: true, state: "Completed" } }
         )
+        
         res.status(200).send(savedresponses);
     } catch (error) {
         console.log("Erreur",error);
