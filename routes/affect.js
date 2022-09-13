@@ -82,7 +82,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
     try {
         let user = req.params.user;
         let doctor = req.params.doctor;
-
+   console.log(user,doctor)
         let patientFromDb = await Patient.findOne({ _id: user, archived: false })
         let doctorFromDb = await Doctor.findOne({ _id: doctor, archived: false })
 
@@ -124,6 +124,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
             if (!affect[i].forms[0].archived) {
                 inCompletedForms.push(obj);
             }
+
         }
 
 
@@ -149,7 +150,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
             )
 
         let completedForms = [];
-
+        
         for (let i = 0; i < affect1.length; i++) {
             let obj = {
                 affectedOn: affect1[i].date,
@@ -159,13 +160,14 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
             if (!affect1[i].forms[0].archived) {
                 completedForms.push(obj);
             }
+
         }
 
         let forms = {
             completed: completedForms,
             incompleted: inCompletedForms
         }
-
+        console.log("formsformsformsforms",forms)
         res.status(200).send(forms)
 
     } catch (error) {
@@ -174,6 +176,10 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
     }
 
 });
+
+
+
+
 
 
 
