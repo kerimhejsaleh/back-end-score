@@ -436,7 +436,7 @@ router.post('/addresponseweb', async (req, res) => {
     
     try {
         let obj = req.body;
-       //  console.log( "jj",req.body)
+      console.log( "jj",req.body)
         let patient = await Patient.findOne({ _id: obj.user, archived: false })
         let doctor = await Doctor.findOne({ _id: obj.doctor, archived: false })
         let formFromDb = await Forms.findOne({ _id: obj.form, archived: false })
@@ -452,6 +452,7 @@ router.post('/addresponseweb', async (req, res) => {
         let responsesFromDb = await Response.findOne({ doctor: obj.doctor, form: obj.form, user: obj.user })
       /*   console.log('responsesFromDb',responsesFromDb)  */
         if (responsesFromDb) {
+            console.log( "jsssssssssssssssj",)
             return res.status(400).send({ message: "Patient already respond" })
         }
  /*      console.log('rrrr',formFromDb.title)
