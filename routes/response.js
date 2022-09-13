@@ -418,7 +418,7 @@ router.post('/addresponse', async (req, res) => {
         responses.message = 'message formulaire';
         responses.state = 'completed';
         let savedresponses = await responses.save()
-        await Affect.findOneAndUpdate({ user: savedresponses.user, form: savedresponses.form },
+        await Affect.findOneAndUpdate({ user: savedresponses.user, form: savedresponses.form, doctor: savedresponses.doctor },
             { $set: { dateRemplissage: new Date(), etat: true, state: "Completed" } }
         )
         

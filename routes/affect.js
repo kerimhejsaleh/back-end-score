@@ -121,13 +121,8 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
                 filledOn: affect[i].dateRemplissage,
                 form: affect[i].forms[0]
             }
-            //console.log("affect[i].forms",affect[i].forms.length)
-            if (affect[i] != undefined){
-                if(affect[i].forms.length>0){
-                    if (!affect[i].forms[0].archived) {
-                        inCompletedForms.push(obj);
-                    }
-                }
+            if (!affect[i].forms[0].archived) {
+                inCompletedForms.push(obj);
             }
         }
 
@@ -154,30 +149,23 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
             )
 
         let completedForms = [];
-        console.log("affect1affect1affect1affect1",affect1)
+
         for (let i = 0; i < affect1.length; i++) {
             let obj = {
                 affectedOn: affect1[i].date,
                 filledOn: affect1[i].dateRemplissage,
                 form: affect1[i].forms[0]
             }
-           //console.log("completedForms1111",affect[i])
-            if (affect[i] != undefined){
-            if(affect[i].forms.length>0){
-
             if (!affect1[i].forms[0].archived) {
                 completedForms.push(obj);
             }
-        }
-            }
-
         }
 
         let forms = {
             completed: completedForms,
             incompleted: inCompletedForms
         }
-
+console.log("dddvvvvvvrtttttttt",forms)
         res.status(200).send(forms)
 
     } catch (error) {

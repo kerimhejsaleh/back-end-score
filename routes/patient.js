@@ -134,6 +134,52 @@ router.post('/login', async (req, res) => {
     res.status(400).send({ message: "Erreur", error });
   }
 })
+router.post('/loginSocialeMedia', async (req, res) => {
+  try {
+    let patientData = req.body
+
+    let patient = await Patient.findOne({ email: patientData.email })
+
+    if (!patient) {
+      res.status(401).send('Invalid Email')
+    }
+    else if (!patient.account_state) {
+      res.status(404).send('Compte blocké')
+    }
+    else {
+        let payload = { subject: patient }
+        let token = jwt.sign(payload, 'secretKey')
+        res.status(200).send({ token })
+    
+    }
+
+  } catch (error) {
+    res.status(400).send({ message: "Erreur", error });
+  }
+})
+
+router.post('/isExist', async (req, res) => {
+  try {
+    let patientData = req.body
+
+    let patient = await Patient.findOne({ email: patientData.email })
+
+    if (!patient) {
+      res.status(401).send('Invalid Email')
+    }
+    else if (!patient.account_state) {
+      res.status(404).send('Compte blocké')
+    }
+    else {
+      res.status(200).send('Compte nexist pas')
+    
+    }
+
+  } catch (error) {
+    res.status(400).send({ message: "Erreur", error });
+  }
+})
+
 
 router.get('/:id', verifyToken, async (req, res) => {
   try {
