@@ -82,7 +82,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
     try {
         let user = req.params.user;
         let doctor = req.params.doctor;
-
+   console.log(user,doctor)
         let patientFromDb = await Patient.findOne({ _id: user, archived: false })
         let doctorFromDb = await Doctor.findOne({ _id: doctor, archived: false })
 
@@ -122,13 +122,13 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
                 form: affect[i].forms[0]
             }
             //console.log("affect[i].forms",affect[i].forms.length)
-            if (affect[i] != undefined){
-                if(affect[i].forms.length>0){
+
+          
                     if (!affect[i].forms[0].archived) {
                         inCompletedForms.push(obj);
                     }
-                }
-            }
+          
+
         }
 
 
@@ -154,7 +154,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
             )
 
         let completedForms = [];
-        console.log("affect1affect1affect1affect1",affect1)
+        
         for (let i = 0; i < affect1.length; i++) {
             let obj = {
                 affectedOn: affect1[i].date,
@@ -162,14 +162,12 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
                 form: affect1[i].forms[0]
             }
            //console.log("completedForms1111",affect[i])
-            if (affect[i] != undefined){
-            if(affect[i].forms.length>0){
+
 
             if (!affect1[i].forms[0].archived) {
                 completedForms.push(obj);
             }
-        }
-            }
+
 
         }
 
@@ -177,7 +175,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
             completed: completedForms,
             incompleted: inCompletedForms
         }
-
+        console.log("formsformsformsforms",forms)
         res.status(200).send(forms)
 
     } catch (error) {
@@ -186,6 +184,10 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
     }
 
 });
+
+
+
+
 
 
 

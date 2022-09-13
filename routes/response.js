@@ -16,11 +16,12 @@ router.post('/addresponse', async (req, res) => {
     
     try {
         let obj = req.body;
-        //console.log( "jj",obj)
         let patient = await Patient.findOne({ _id: obj.user, archived: false })
         let doctor = await Doctor.findOne({ _id: obj.doctor, archived: false })
         let formFromDb = await Forms.findOne({ _id: obj.form, archived: false })
-
+        console.log("patient",patient);
+        console.log("doctor",doctor);
+        console.log("formFromDb",formFromDb);
         if (!patient || !doctor || !formFromDb) {
             return res.status(404).send({ message: "Not found" })
         }
@@ -28,7 +29,7 @@ router.post('/addresponse', async (req, res) => {
         if (responsesFromDb) {
             return res.status(400).send({ message: "Patient already respond" })
         }
-
+      
         let responses = new Response(obj);
         responses.form_title = formFromDb.title;
         responses.form_description = formFromDb.description;
@@ -48,7 +49,7 @@ router.post('/addresponse', async (req, res) => {
          formuleMuti = form.formMuti;
 
         //------------------------------------------------
-    console.log(formuleMuti);
+    console.log("formuleMuti",formuleMuti);
 
         if (form.formMuti != [] || form.formMuti != undefined) {
             //f = ((q1 + q2 + q3) * 3) / q4
@@ -325,7 +326,9 @@ router.post('/addresponse', async (req, res) => {
 
             for(var i =0; i<form.formMuti.length;i++){
                 console.log(formuleCalculeGlobal[i]);
-                sc.push(eval(formuleCalculeGlobal[i]));
+                console.log(`formuleCalculeGlobal[i]`,formuleCalculeGlobal[i][0]);
+                if(formuleCalculeGlobal[i][0]!='u'){
+                sc.push(eval(formuleCalculeGlobal[i]));}
                 console.log(`formuleMutiof table formule`,eval(formuleMuti[i]));
             };
 
@@ -419,6 +422,157 @@ router.post('/addresponse', async (req, res) => {
         responses.state = 'completed';
         let savedresponses = await responses.save()
         await Affect.findOneAndUpdate({ user: savedresponses.user, form: savedresponses.form },
+            { $set: { dateRemplissage: new Date(), etat: true, state: "Completed" } }
+        )
+        
+        res.status(200).send(savedresponses);
+    } catch (error) {
+        console.log("Erreur",error);
+        res.status(400).send({ message: "Erreur", error });
+    }
+});
+router.post('/addresponseweb', async (req, res) => {
+    
+    try {
+        let obj = req.body;
+      console.log( "jj",req.body)
+        let patient = await Patient.findOne({ _id: obj.user, archived: false })
+        let doctor = await Doctor.findOne({ _id: obj.doctor, archived: false })
+        let formFromDb = await Forms.findOne({ _id: obj.form, archived: false })
+   /*      console.log("patient",patient);
+        console.log("doctor",doctor);
+        console.log("formFromDb",formFromDb); */
+   /*      console.log('patient',patient)
+        console.log('doctor',doctor)
+        console.log('formFromDb',formFromDb) */
+        if (!patient || !doctor || !formFromDb) {
+            return res.status(404).send({ message: "Not found" })
+        }
+        let responsesFromDb = await Response.findOne({ doctor: obj.doctor, form: obj.form, user: obj.user })
+      /*   console.log('responsesFromDb',responsesFromDb)  */
+        if (responsesFromDb) {
+            console.log( "jsssssssssssssssj",)
+            return res.status(400).send({ message: "Patient already respond" })
+        }
+ /*      console.log('rrrr',formFromDb.title)
+      console.log('description',formFromDb.description)
+      console.log('created_date',formFromDb.created_date)
+      console.log('sections',formFromDb.sections)
+      console.log('messages',formFromDb.messages)
+      console.log('formule',formFromDb.formule)
+      console.log('archived',formFromDb.archived)
+      console.log('rstatusrrr',formFromDb.status)
+      console.log('genre',formFromDb.genre)
+      console.log('password',formFromDb.password) */
+        let responses = new Response(obj);
+        responses.form_title = formFromDb.title;
+        responses.form_description = formFromDb.description;
+        responses.form_created_date = formFromDb.created_date;
+        responses.form_sections = formFromDb.sections;
+        responses.form_messages = formFromDb.messages;
+        responses.form_formule = formFromDb.formule;
+        responses.form_archived = formFromDb.archived;
+        responses.form_status = formFromDb.status;
+        responses.form_genre = formFromDb.genre;
+        responses.form_password = formFromDb.password;
+        responses.created_date = new Date();
+        responses.archived = false;
+        responses.score =req.body.score;
+        let sc = [];
+        let form = await Forms.findOne({ _id: responses.form })
+        let formule = form.formule;
+         formuleMuti = form.formMuti;
+
+        //------------------------------------------------
+   /*  console.log("responsesresponsesresponses",responses); */
+
+ 
+
+ /*
+        
+                if (formule && formule.length > 0 && formule == '+') {
+            for (let r of responses.responses) {
+                for (let op of r.options) {
+                    if (op.selected) {
+                        sc = sc + parseInt(op.score);
+                    }
+                }
+            }
+        }
+        else if (formule && formule.length > 1) {
+            //f = ((q1 + q2 + q3) * 3) / q4
+            formule = formule.toUpperCase();
+            let nbr = '';
+            let indexToReplace = 0;
+            for (let i = 0; i < formule.length + 1; i++) {
+                if (formule[i] == 'Q' || (!isNaN(formule[i]) && nbr[0] == 'Q')) {
+                    if (indexToReplace == 0 && nbr.length == 0) indexToReplace = i;
+                    nbr = nbr + formule[i];
+                    console.log(nbr);
+                    console.log('ind2rep', indexToReplace);
+
+                } else {
+                    if (nbr.length > 0) {
+                        let questionScoreValue = 0;
+                        let index = parseInt(nbr.substring(1, nbr.length));
+                        console.log('ind', nbr);
+                        console.log('index', index);
+                        for (let opR of responses.responses[index - 1].options) {
+                            if (opR.selected) {
+                                questionScoreValue = questionScoreValue + parseInt(opR.score);
+                            }
+                        }
+                        formule = formule.substring(0, indexToReplace) + questionScoreValue.toString() + " " + formule.substring(indexToReplace + nbr.length);
+                        nbr = '';
+                        indexToReplace = 0;
+                        console.log(formule);
+                    }
+                }
+            }
+            sc = eval(formule);
+        }
+        */
+       /*  responses.score = sc; */
+//-----------------------------------
+/*
+        if (form.messages && Array.isArray(form.messages)) {
+            Array.from(form.messages).forEach(message => {
+                if (String(message.score).includes("-")) {
+                    // lb-ub
+                    // ^\*-[0-9]|[0-9]+\-[0-9*]+|[0-9*]\-[0-9]*
+                    let bounds = String(message.score).split('-')
+                    let lowerBound = bounds[0]
+                    let upperBound = bounds[1]
+                    if (lowerBound === '*' && upperBound !== '*' && sc <= Number.parseInt(upperBound)) {
+                        responses.message = message.message;
+                        return;
+                    }
+                    if (upperBound === '*' && lowerBound !== '*' && sc >= Number.parseInt(lowerBound)) {
+                        responses.message = message.message;
+                        return;
+                    }
+                    if (lowerBound !== '*' && upperBound !== '*' && (Number.parseInt(lowerBound) <= sc && sc <= Number.parseInt(upperBound))) {
+                        responses.message = message.message;
+                        return;
+                    }
+
+                } else {
+                    if (Number.parseInt(String(message.score)) === sc) {
+                        responses.message = message.message;
+                        return;
+                    }
+                }
+            })
+            if (!responses.message) {
+                responses.message = '*'
+            }
+        }
+*/
+
+        responses.message = 'message formulaire';
+        responses.state = 'completed';
+        let savedresponses = await responses.save()
+        await Affect.findOneAndUpdate({ user: savedresponses.user, form: savedresponses.form,doctor: savedresponses.doctor},
             { $set: { dateRemplissage: new Date(), etat: true, state: "Completed" } }
         )
         

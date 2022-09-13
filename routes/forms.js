@@ -132,7 +132,7 @@ router.get('/getforms', verifyToken, async (req, res) => {
     try {
 
         let forms = await Forms.find({ archived: false }).sort({ 'title': 1 })
-      /*   console.log("uuuuu",forms) */
+         console.log("uuuuu",forms.length) 
         res.status(200).send(forms);
 
     } catch (error) {
