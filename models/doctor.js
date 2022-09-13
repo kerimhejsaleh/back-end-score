@@ -16,6 +16,7 @@ const DoctorSchema = new mongoose.Schema({
     archived: { type: Boolean, required: true },
     fax: { type: String, required: true },
     gender: { type: String  },
+    
     job: { type: String, required: true },
     adeli: { type: Number},
     rpps: { type: Number, required: true },
