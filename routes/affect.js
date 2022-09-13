@@ -122,11 +122,13 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
                 form: affect[i].forms[0]
             }
             //console.log("affect[i].forms",affect[i].forms.length)
+
           
                     if (!affect[i].forms[0].archived) {
                         inCompletedForms.push(obj);
                     }
           
+
         }
 
 
@@ -160,13 +162,12 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
                 form: affect1[i].forms[0]
             }
            //console.log("completedForms1111",affect[i])
-      
+
 
             if (!affect1[i].forms[0].archived) {
                 completedForms.push(obj);
             }
-        
-            
+
 
         }
 
