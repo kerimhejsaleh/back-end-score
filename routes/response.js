@@ -436,21 +436,34 @@ router.post('/addresponseweb', async (req, res) => {
     
     try {
         let obj = req.body;
-        // console.log( "jj",req.body.score)
+       //  console.log( "jj",req.body)
         let patient = await Patient.findOne({ _id: obj.user, archived: false })
         let doctor = await Doctor.findOne({ _id: obj.doctor, archived: false })
         let formFromDb = await Forms.findOne({ _id: obj.form, archived: false })
    /*      console.log("patient",patient);
         console.log("doctor",doctor);
         console.log("formFromDb",formFromDb); */
+   /*      console.log('patient',patient)
+        console.log('doctor',doctor)
+        console.log('formFromDb',formFromDb) */
         if (!patient || !doctor || !formFromDb) {
             return res.status(404).send({ message: "Not found" })
         }
         let responsesFromDb = await Response.findOne({ doctor: obj.doctor, form: obj.form, user: obj.user })
+      /*   console.log('responsesFromDb',responsesFromDb)  */
         if (responsesFromDb) {
             return res.status(400).send({ message: "Patient already respond" })
         }
-      
+ /*      console.log('rrrr',formFromDb.title)
+      console.log('description',formFromDb.description)
+      console.log('created_date',formFromDb.created_date)
+      console.log('sections',formFromDb.sections)
+      console.log('messages',formFromDb.messages)
+      console.log('formule',formFromDb.formule)
+      console.log('archived',formFromDb.archived)
+      console.log('rstatusrrr',formFromDb.status)
+      console.log('genre',formFromDb.genre)
+      console.log('password',formFromDb.password) */
         let responses = new Response(obj);
         responses.form_title = formFromDb.title;
         responses.form_description = formFromDb.description;
@@ -471,7 +484,7 @@ router.post('/addresponseweb', async (req, res) => {
          formuleMuti = form.formMuti;
 
         //------------------------------------------------
-    console.log("responsesresponsesresponses",responses);
+   /*  console.log("responsesresponsesresponses",responses); */
 
  
 
