@@ -165,7 +165,7 @@ router.get('/getallform/:user/:doctor', verifyToken, async (req, res) => {
             completed: completedForms,
             incompleted: inCompletedForms
         }
-console.log("dddvvvvvvrtttttttt",forms)
+
         res.status(200).send(forms)
 
     } catch (error) {
