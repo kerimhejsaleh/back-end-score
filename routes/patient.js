@@ -61,7 +61,7 @@ router.post('/',  async (req, res) => {
     let obj = req.body;
     let patient = new Patient(obj);
 
-/* console.log(obj) */
+    console.log("data sign up patient " ,obj) 
     let findEmailInDoctor = await Doctor.findOne({ email: patient.email })
     let findEmailInPatient = await Patient.findOne({ email: patient.email })
 

@@ -432,7 +432,7 @@ router.post('/addresponse', async (req, res) => {
     }
 });
 router.post('/addresponseweb', async (req, res) => {
-    
+    console.log("fffhhhyyyy", req.body.score)
     try {
         let obj = req.body;
       console.log( "jj",req.body)
@@ -477,8 +477,13 @@ router.post('/addresponseweb', async (req, res) => {
         responses.form_password = formFromDb.password;
         responses.created_date = new Date();
         responses.archived = false;
-        responses.score =req.body.score;
-        let sc = [];
+
+        let scoresCaluculated = [];
+        for(let i=0; i< req.body.score.length;i++){
+            scoresCaluculated.push(eval(req.body.score[i]));
+        }
+        responses.score =scoresCaluculated;
+
         let form = await Forms.findOne({ _id: responses.form })
         let formule = form.formule;
          formuleMuti = form.formMuti;
