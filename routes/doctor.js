@@ -32,11 +32,11 @@ const storage = multer.diskStorage(
 const upload = multer({ storage: storage });
 
 router.post('/', upload.any('image'), async (req, res) => {
-/*   console.log("req.body",req.body) */
+   console.log("req.body",req.body)  
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
-/* console.log(11,doctor) */
+/*   console.log(11,doctor)  */
 doctor.account_state_dossier_affectation=false
 doctor.liste_dossier= [{
   id:"",
@@ -46,11 +46,11 @@ doctor.liste_dossier= [{
   valLenght:false,
   checkedone:false
 }]
-/* console.log(1321,doctor) */
+ /*  console.log(1321,doctor)  */ 
     let findEmailInDoctor = await Doctor.findOne({ email: doctor.email })
     let findEmailInPatient = await Patient.findOne({ email: doctor.email })
 
-
+    console.log(1321,findEmailInDoctor,findEmailInPatient) 
     if (!findEmailInDoctor && !findEmailInPatient) {
 
       try {
@@ -147,14 +147,17 @@ router.post('/isExist', async (req, res) => {
 
     let doctor = await Doctor.findOne({ email: doctorData.email })
     if (!doctor) {
-      res.status(401).send('Invalid Email')
+     // res.status(401).send('Invalid Email')
+      res.status(200).send({res:'Invalid Email'})
     }
     else if (!doctor.account_state) {
-      res.status(404).send('Compte blocké')
+    //  res.status(404).send('Compte blocké')
+      res.status(200).send({res:'Compte blocké'})
     }
 
     else {
-      res.status(200).send('Compte nexist pas')
+     // res.status(200).send('Compte nexist pas')
+      res.status(200).send({res:'Compte nexist pas'})
     }
   } catch (error) {
     console.log(error);

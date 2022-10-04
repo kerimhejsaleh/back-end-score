@@ -36,9 +36,9 @@ function addMonths(numOfMonths, date = new Date()) {
   return date;
 }
 router.post('/addachat', async (req, res) => {
- console.log("1")
+/*  console.log("1") */
     try {
-      console.log("2")
+    /*   console.log("2") */
 
         obj = req.body;
       /*   console.log("obj",obj) */
@@ -55,12 +55,12 @@ const dateYear =addMonths(12, date) */
 var myBool = Boolean(obj.type); 
 console.log("obj",typeof myBool,myBool) */
          if (!doctor) {
-          console.log("3")
+      /*     console.log("3") */
 
             return res.status(404).send({ message: "Not found" })
         }
          if(achatForm==null) {
-          console.log("4",obj.type)
+       /*    console.log("4",obj.type) */
           if(obj.type){
           let achat = new Achat({
             user:obj.user,

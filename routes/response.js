@@ -432,10 +432,10 @@ router.post('/addresponse', async (req, res) => {
     }
 });
 router.post('/addresponseweb', async (req, res) => {
-    console.log("fffhhhyyyy", req.body.score)
+  /*   console.log("fffhhhyyyy", req.body.score) */
     try {
         let obj = req.body;
-      console.log( "jj",req.body)
+     /*  console.log( "jj",req.body) */
         let patient = await Patient.findOne({ _id: obj.user, archived: false })
         let doctor = await Doctor.findOne({ _id: obj.doctor, archived: false })
         let formFromDb = await Forms.findOne({ _id: obj.form, archived: false })

@@ -22,7 +22,6 @@ router.post('/addaffectation', verifyToken, async (req, res) => {
         if (!patient || !doctor || !form) {
             return res.status(404).send({ message: "Not found" })
         }
-
         let affectation = new Affect(obj);
         affectation.date = new Date();
         affectation.dateRemplissage = null;

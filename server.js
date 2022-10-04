@@ -26,7 +26,8 @@ const insideApi = require('./routes/inside');
 const urlVideo = require('./routes/urlvideo');
 const paypal = require('./routes/paypal');
 const prix = require('./routes/prix');
-const achat =require('./routes/achat')
+const achat =require('./routes/achat');
+const invitation =require('./routes/invitation')
 //create app
 const app = express();
 
@@ -40,7 +41,7 @@ app.use(bodyParser.urlencoded({ limit: '500mb', extended: true, parameterLimit: 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./dist'));
-
+app.set('view engine', 'ejs');
 /* app.use(express.json({limit: '5000mb'}));
 app.use(express.urlencoded({limit: '5000mb'}));
  app.use(bodyParser.urlencoded({limit: "5000mb", extended: true, parameterLimit:50000000}));  */
@@ -65,6 +66,7 @@ app.use('/urlVideo', urlVideo);
 app.use('/paypal',paypal);
 app.use('/prix',prix);
 app.use('/achat',achat);
+app.use('/invitation',invitation);
 /* app.use(express.static('../client/dist')); */
 
 app.get('/getfile/:filename', function (req, res) {

@@ -9,7 +9,7 @@ const { Doctor } = require('../models/doctor');
 const { verifyToken } = require('../middlewares/verifyToken');
 const { sendEmail } = require('../helpers/sendEmail');
 const { isValidObjectId } = require('mongoose');
-
+const { Invitation } = require('../models/invitation');
 
 let filename1 = [];
 ///secret key
@@ -52,9 +52,6 @@ router.get('/getpatientskip/:page', async (req, res) => {
       res.sendStatus(500).json({'msg' : 'Server Error'});
   }
   });
-
-
-
 
 router.post('/',  async (req, res) => {
   try {
@@ -161,18 +158,19 @@ router.post('/loginSocialeMedia', async (req, res) => {
 
 router.post('/isExist', async (req, res) => {
   try {
+   
     let patientData = req.body
-
+    console.log(patientData.email)
     let patient = await Patient.findOne({ email: patientData.email })
 
     if (!patient) {
-      res.status(401).send('Invalid Email')
+      res.status(200).send({res:'Invalid Email'})
     }
     else if (!patient.account_state) {
-      res.status(404).send('Compte blocké')
+      res.status(200).send({res:'Compte blocké'})
     }
     else {
-      res.status(200).send('Compte nexist pas')
+      res.status(200).send({res:'Compte nexist pas'})
     
     }
 
@@ -200,12 +198,9 @@ router.get('/:id', verifyToken, async (req, res) => {
   }
 });
 
-
-
-
 router.get('/', verifyToken, async (req, res) => {
   try {
-    let patients = await Patient.find({ archived: false })
+    let patients = await Patient.find({ archived: false });
     res.status(200).send(patients);
   } catch (error) {
     res.status(400).send({ message: "Erreur", error });
