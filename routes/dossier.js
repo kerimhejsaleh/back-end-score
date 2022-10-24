@@ -118,7 +118,7 @@ router.get('/getDossier/:id', verifyAdminToken, async (req, res) => {
     }
   });
 
-router.get('/', verifyAdminToken, async (req, res) => {
+router.get('/' , async (req, res) => {
   try {
     let dossiers = await Dossier.find({ archived: false }).sort({ 'name': 1 })
  /*  console.log(dossiers) */

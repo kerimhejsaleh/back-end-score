@@ -96,7 +96,7 @@ router.get('/getinside/:dossier', verifyAdminToken, async (req, res) => {
 
 
 
-router.get('/getmyform/:id', verifyAdminToken, async (req, res) => {
+router.get('/getmyform/:id', async (req, res) => {
     try {
         let id = req.params.id;
         const ObjectId = mongoose.Types.ObjectId;
