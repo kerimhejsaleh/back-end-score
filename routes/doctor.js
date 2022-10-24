@@ -32,7 +32,7 @@ const storage = multer.diskStorage(
 const upload = multer({ storage: storage });
 
 router.post('/', upload.any('image'), async (req, res) => {
-   console.log("req.body",req.body)  
+  /*  console.log("req.body",req.body)   */
   try {
     let obj = req.body;
     let doctor = new Doctor(obj);
@@ -50,7 +50,7 @@ doctor.liste_dossier= [{
     let findEmailInDoctor = await Doctor.findOne({ email: doctor.email })
     let findEmailInPatient = await Patient.findOne({ email: doctor.email })
 
-    console.log(1321,findEmailInDoctor,findEmailInPatient) 
+  /*   console.log(1321,findEmailInDoctor,findEmailInPatient)  */
     if (!findEmailInDoctor && !findEmailInPatient) {
 
       try {

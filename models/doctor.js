@@ -14,7 +14,7 @@ const DoctorSchema = new mongoose.Schema({
     account_state_dossier_affectation: { type: Boolean, required: true },
     liste_dossier: { type: Array, required: true },
     archived: { type: Boolean, required: true },
-    fax: { type: String, required: true },
+    fax: { type: String },
     gender: { type: String  },
     
     job: { type: String, required: true },

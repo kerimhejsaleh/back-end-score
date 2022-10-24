@@ -14,6 +14,10 @@ const PatientSchema = new mongoose.Schema({
     account_state: { type: Boolean, required: true },
     archived: { type: Boolean, required: true },
     gender: { type: String, required: true },
+    size: { type: Number, required: true },
+    weight: { type: Number, required: true },
+    mailConfirmation: { type: Boolean, required: true},
+    consontement: { type: String, required: true },
 })
 let Patient = mongoose.model('patient', PatientSchema);
 

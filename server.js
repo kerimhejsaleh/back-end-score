@@ -40,7 +40,7 @@ app.use(bodyParser.json({ limit: '500mb' }));
 app.use(bodyParser.urlencoded({ limit: '500mb', extended: true, parameterLimit: 5000000 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static('../client/Front-Score-V3/public'));
+app.use(express.static('./dist'));
 app.set('view engine', 'ejs');
 /* app.use(express.json({limit: '5000mb'}));
 app.use(express.urlencoded({limit: '5000mb'}));
