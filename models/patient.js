@@ -17,7 +17,7 @@ const PatientSchema = new mongoose.Schema({
     size: { type: Number, required: true },
     weight: { type: Number, required: true },
     mailConfirmation: { type: Boolean, required: true},
-    consontement: { type: String, required: true },
+    consontement: { type: String },
 })
 let Patient = mongoose.model('patient', PatientSchema);
 
